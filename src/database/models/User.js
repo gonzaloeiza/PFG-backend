@@ -15,6 +15,10 @@ class User extends Model {}
             allowNull: false,
             isEmail: true
         },
+        passwordHash: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         username: {
             type: DataTypes.STRING,
             unique: true,
@@ -36,26 +40,15 @@ class User extends Model {}
             type: DataTypes.STRING,
             defaultValue: ""
         },
-        passwordHash: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         dateBirth: {
             type: DataTypes.DATEONLY,
         },
         gender: {
             type: DataTypes.ENUM(genderOptions),
-            allowNull: false,
             defaultValue: genderOptions[2]
-        },
-        puntuation: {
-            type: DataTypes.DOUBLE,
-            allowNull: false,
-            defaultValue: 0
         },
         sidePlaying: {
             type: DataTypes.ENUM(sidePlayingOptions),
-            allowNull: false,
             defaultValue: sidePlayingOptions[2]
         },
         direction: {

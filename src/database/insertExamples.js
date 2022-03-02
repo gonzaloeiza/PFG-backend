@@ -1,5 +1,5 @@
 const models = require("./models");
-var bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 
 arrayOfInsertions = []
 
@@ -64,7 +64,9 @@ arrayOfInsertions.push(() => {
     });
 });
 
-//Partners
+
+
+//Booking
 arrayOfInsertions.push(() => {
     return models.Booking.create({
         userId: 1,
@@ -90,6 +92,55 @@ arrayOfInsertions.push(() => {
     return models.Booking.create({
         userId: 2,
         courtId: 2
+    });
+});
+
+
+//Ranking
+arrayOfInsertions.push(() => {
+    return models.Ranking.create({
+        name: "Ranking masculino",
+        year: 2022,
+        rankingType: "Masculino"
+    });
+});
+
+arrayOfInsertions.push(() => {
+    return models.Ranking.create({
+        name: "Ranking femenino",
+        year: 2022,
+        rankingType: "Femenino"
+    });
+});
+
+arrayOfInsertions.push(() => {
+    return models.Ranking.create({
+        name: "Ranking mixto",
+        year: 2022,
+        rankingType: "Mixto"
+    });
+});
+
+
+//Journey
+arrayOfInsertions.push(() => {
+    return models.Journey.create({
+        // number: 1,
+        rankingId: 1
+    });
+});
+
+arrayOfInsertions.push(() => {
+    return models.Journey.create({
+        // number: 1,
+        rankingId: 2
+    });
+});
+
+arrayOfInsertions.push(() => {
+    return models.Journey.create({
+        // number: 1,
+        rankingId: 3
     });
 });
 
@@ -105,3 +156,4 @@ async function executeInsertions() {
 }
 
 executeInsertions();
+                                
