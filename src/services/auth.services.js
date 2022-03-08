@@ -3,13 +3,13 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const {jwtSecret} = require("../config");
 
-function signIn(username, password) {
+function signIn(email, password) {
     return new Promise((resolve, reject) => {
         models.User.findOne({
             where: {
-                username: username
+                email: email
             },
-            attributes: ["id", "passwordHash"],
+            attributes: ["id", "name", "passwordHash"],
             raw: true
         }).then((data) => {
             if (data) {
@@ -17,18 +17,18 @@ function signIn(username, password) {
                     const token = jwt.sign({ id: data.id }, jwtSecret, {
                         expiresIn: 86400 // 24 hours
                     });
-
-                    resolve(
-                        {"accessToken": token}
-                    );
+                    resolve({
+                        "accessToken": token,
+                        "name": data.name,
+                    });
                 } else {
-                    reject("Incorrect username/password.");
+                    reject("email/contraseña incorrecta.");
                 }
             } else {
-                reject("Incorrect username/password.");
+                reject("email/contraseña incorrecta.");
             }         
         }).catch((err) => {
-            reject(err);
+            reject("Ha ocurrido un error, intentar de nuevo mas tarde.");
         });
     });
 }

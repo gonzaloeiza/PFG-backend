@@ -19,10 +19,9 @@ class User extends Model {}
             type: DataTypes.STRING,
             allowNull: false
         },
-        username: {
+        dni: {
             type: DataTypes.STRING,
-            unique: true,
-            allowNull: false
+            allowNull: false,
         },
         phoneNumber: {
             type: DataTypes.STRING,
@@ -46,10 +45,6 @@ class User extends Model {}
         gender: {
             type: DataTypes.ENUM(genderOptions),
             defaultValue: genderOptions[2]
-        },
-        sidePlaying: {
-            type: DataTypes.ENUM(sidePlayingOptions),
-            defaultValue: sidePlayingOptions[2]
         },
         direction: {
             type: DataTypes.STRING,

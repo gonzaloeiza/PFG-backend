@@ -4,8 +4,10 @@ const app = express();
 const routes = require('./src/routes');
 const db = require("./src/database/db");
 const port = process.env.PORT || 9999;
+const cors = require("cors");
 
 //app uses
+app.use(cors({ 'Access-Control-Allow-Origin': '*' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api", routes);

@@ -1,12 +1,9 @@
-const genderOptions = ["Hombre", "Mujer", "Otro"]
-const sidePlayingOptions = ["Derecha", "Réves", "Indiferente"]
-const rankingTypes = ["Masculino", "Femenino", "Mixto"]
-const jwtSecret = "mysecret"
-
+const genderOptions = ["HOMBRE", "MUJER", "OTRO"]
+const sidePlayingOptions = ["DERECHA", "REVES", "INDIFERENTE"]
+const rankingTypes = ["MASCULINO", "FEMENINO", "MIXTO"]
 
 module.exports =  {
     genderOptions,
     sidePlayingOptions,
     rankingTypes,
-    jwtSecret
 }
