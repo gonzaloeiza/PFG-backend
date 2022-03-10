@@ -4,9 +4,9 @@ function getUserProfile(req, res, next) {
     const userId = req.userId;
     userService.getProfile(userId)
     .then((data) => {
-        res.status(200).send(data);
+        return res.status(200).send(data);
     }).catch((err) => {
-        res.status(400).send(err);
+        return res.status(400).send(err);
     });
 }
 

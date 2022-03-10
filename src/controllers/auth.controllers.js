@@ -6,9 +6,9 @@ function signIn(req, res, next) {
     const password = req.body.password;
     authService.signIn(email, password)
     .then((data) => {
-        res.status(200).send(data);
+        return res.status(200).send(data);
     }).catch((err) => {
-        res.status(400).send({"error": err});
+        return res.status(400).send({"error": err});
     });
 }
 
@@ -29,12 +29,11 @@ function signUp(req, res, next) {
         postalCode: req.body.postalCode,
         province: req.body.province
     };
-    console.log();
     authService.signUp(userData)
     .then((data) => {
-        res.status(200).send(data);
+        return res.status(200).send({"data": "successfull signup"});
     }).catch((err) => {
-        res.status(400).send(err);
+        return res.status(400).send({"error": err});
     });
 }
 

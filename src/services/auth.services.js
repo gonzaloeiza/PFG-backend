@@ -1,34 +1,12 @@
-const models = require("../database/models");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const {jwtSecret} = require("../config");
+const databaseService = require("./database.services");
+const emailService = require("./email.service");
 
 function signIn(email, password) {
     return new Promise((resolve, reject) => {
-        models.User.findOne({
-            where: {
-                email: email
-            },
-            attributes: ["id", "name", "passwordHash"],
-            raw: true
-        }).then((data) => {
-            if (data) {
-                if (bcrypt.compareSync(password, data.passwordHash)) {
-                    const token = jwt.sign({ id: data.id }, jwtSecret, {
-                        expiresIn: 86400 // 24 hours
-                    });
-                    resolve({
-                        "accessToken": token,
-                        "name": data.name,
-                    });
-                } else {
-                    reject("email/contraseña incorrecta.");
-                }
-            } else {
-                reject("email/contraseña incorrecta.");
-            }         
+        databaseService.signIn(email, password).then((data) => {
+            return resolve(data);
         }).catch((err) => {
-            reject("Ha ocurrido un error, intentar de nuevo mas tarde.");
+            return reject(err);
         });
     });
 }
@@ -36,16 +14,24 @@ function signIn(email, password) {
 
 function signUp(userData) {
     return new Promise((resolve, reject) => {
-        models.User.create(userData)
-        .then((data) => {
-            resolve(data);
+        databaseService.signUp(userData).then((data) => {
+            emailService.sendSignUpEmail(userData.email, userData.name);
+            return resolve(data);
         }).catch((err) => {
-            reject(err);
+            return reject(err);
         });
     });
 }
 
+function forgotPassword(userEmail) {
+    return new Promise((resolve, reject) => {
+
+    });
+}
+
+
 module.exports = {
     signIn,
-    signUp
+    signUp,
+    forgotPassword
 }

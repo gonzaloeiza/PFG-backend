@@ -61,6 +61,10 @@ class User extends Model {}
         province: {
             type: DataTypes.STRING,
             defaultValue: ""
+        },
+        pendingSignUp: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true
         }
         
     }, {
