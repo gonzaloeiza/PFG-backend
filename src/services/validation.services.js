@@ -1,4 +1,4 @@
-const { databaseService } = require("../services");
+const databaseService = require("./database.services");
 const { genderOptions } = require("../config");
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();

@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const user = require("./user.routes");
 const auth = require("./auth.routes");
+const user = require("./user.routes");
+const booking = require("./booking.routes");
 
-router.use("/user", user);
 router.use("/auth", auth);
-
+router.use("/user", user);
+router.use("/booking", booking);
 
 module.exports = router;

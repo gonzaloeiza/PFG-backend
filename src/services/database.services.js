@@ -47,7 +47,7 @@ function signIn(email, password) {
                 if (bcrypt.compareSync(password, data.passwordHash)) {
                     console.log(data);
                     const token = jwt.sign({ id: data.id }, process.env.JWT_SECRET, {
-                        expiresIn: 86400 // 24 hours
+                        expiresIn: `${process.env.JWT_EXPIRESINSECONDS}s`
                     });
                     console.log(token);
                     return resolve({

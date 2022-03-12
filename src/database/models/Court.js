@@ -18,7 +18,7 @@ class Court extends Model {}
             type: DataTypes.STRING,
             defaultValue: ""
         },
-        timeUnity: {
+        bookReservationTime: {  //if you book a court, for how long can you play 
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 60 //minutes
@@ -29,6 +29,14 @@ class Court extends Model {}
         },
         priceWithLight: {
             type: DataTypes.DOUBLE,
+            allowNull: false
+        },
+        numberOfDaysToBookBefore: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        numberOfHoursToCancelCourt: {
+            type: DataTypes.INTEGER,
             allowNull: false
         }
     }, {
