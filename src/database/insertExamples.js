@@ -46,24 +46,28 @@ arrayOfInsertions.push(() => {
     });
 });
 
-// //Courts
-// arrayOfInsertions.push(() => {
-//     return models.Court.create({
-//         nombre: "Pista DAM",
-//         timeUnity: 90,
-//         priceWithoutLight: 35,
-//         priceWithLight: 40
-//     });
-// });
+//Courts
+arrayOfInsertions.push(() => {
+    return models.Court.create({
+        nombre: "Pista DAM",
+        bookReservationTime: 90,
+        priceWithoutLight: 35,
+        priceWithLight: 40,
+        numberOfDaysToBookBefore: 2,
+        numberOfHoursToCancelCourt: 6
+    });
+});
 
-// arrayOfInsertions.push(() => {
-//     return models.Court.create({
-//         nombre: "Pista 1",
-//         priceWithoutLight: 25,
-//         priceWithLight: 30
-//     });
-// });
-
+arrayOfInsertions.push(() => {
+    return models.Court.create({
+        nombre: "Pista CUPRA",
+        bookReservationTime: 60,
+        priceWithoutLight: 30,
+        priceWithLight: 45,
+        numberOfDaysToBookBefore: 2,
+        numberOfHoursToCancelCourt: 4
+    });
+});
 
 
 // //Booking
