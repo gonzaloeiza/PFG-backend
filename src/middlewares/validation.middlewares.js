@@ -21,7 +21,7 @@ function validateSignup(req, res, next) {
     .then(() => {
         return next();
     }).catch((err) => {
-        return res.status(400).send({"error": err});
+        return res.status(400).send({message: err});
     });
 }
 
@@ -30,7 +30,7 @@ function validateLogin(req, res, next) {
     if (validationService.validateEmailRegex(req.body.email))  {
         return next();
     } else {
-        return res.status(400).send({"error": "Formato de email inválido"});
+        return res.status(400).send({message: "Formato de email inválido"});
     }
 }
 

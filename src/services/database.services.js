@@ -45,11 +45,9 @@ function signIn(email, password) {
         }).then((data) => {
             if (data) {
                 if (bcrypt.compareSync(password, data.passwordHash)) {
-                    console.log(data);
                     const token = jwt.sign({ id: data.id }, process.env.JWT_SECRET, {
                         expiresIn: `${process.env.JWT_EXPIRESINSECONDS}s`
                     });
-                    console.log(token);
                     return resolve({
                         "accessToken": token,
                         "name": data.name,
@@ -83,9 +81,23 @@ function signUp(userData) {
     });   
 }
 
+function getCourts() {
+    return new Promise((resolve, reject) => {
+        models.Court.findAll({
+            attributes: {exclude: ["createdAt", "updatedAt"]},
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     emailExists,
     signIn,
-    signUp
+    signUp,
+    getCourts,
 
 }

@@ -9,12 +9,12 @@ class Court extends Model {}
             autoIncrement: true,
             primaryKey: true
         },
-        nombre: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
         },
-        descripcion: {
+        description: {
             type: DataTypes.STRING,
             defaultValue: ""
         },

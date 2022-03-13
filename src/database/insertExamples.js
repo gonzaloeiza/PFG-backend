@@ -49,7 +49,7 @@ arrayOfInsertions.push(() => {
 //Courts
 arrayOfInsertions.push(() => {
     return models.Court.create({
-        nombre: "Pista DAM",
+        name: "Pista DAM",
         bookReservationTime: 90,
         priceWithoutLight: 35,
         priceWithLight: 40,
@@ -60,7 +60,7 @@ arrayOfInsertions.push(() => {
 
 arrayOfInsertions.push(() => {
     return models.Court.create({
-        nombre: "Pista CUPRA",
+        name: "Pista CUPRA",
         bookReservationTime: 60,
         priceWithoutLight: 30,
         priceWithLight: 45,

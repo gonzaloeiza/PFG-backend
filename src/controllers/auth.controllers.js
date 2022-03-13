@@ -6,9 +6,9 @@ function signIn(req, res, next) {
     const password = req.body.password;
     authService.signIn(email, password)
     .then((data) => {
-        return res.status(200).send(data);
+        return res.status(200).send({message: data});
     }).catch((err) => {
-        return res.status(400).send({"error": err});
+        return res.status(400).send({message: err});
     });
 }
 
@@ -31,9 +31,9 @@ function signUp(req, res, next) {
     };
     authService.signUp(userData)
     .then((data) => {
-        return res.status(200).send({"data": "successfull signup"});
+        return res.status(200).send({message: "successfull signup"});
     }).catch((err) => {
-        return res.status(400).send({"error": err});
+        return res.status(400).send({message: err});
     });
 }
 

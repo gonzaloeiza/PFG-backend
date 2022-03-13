@@ -1,7 +1,11 @@
 const { bookingService } = require("../services")
 
 function getCourts(req, res, next) {
-    res.send(bookingService.getCourts());
+    bookingService.getCourts().then((data) => {
+        res.status(200).send({message: data});
+    }).catch((err) => {
+        res.status(400).send({message: err});
+    });
 }
 
 

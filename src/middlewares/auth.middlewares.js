@@ -5,14 +5,14 @@ function verifyToken(req, res, next) {
     const token = req.headers["x-access-token"];
     if (!token) {
         return res.status(403).send(
-            {message: "Could not find token"}
+            {message: "No estás autorizado"}
         );
     }
 
     jwt.verify(token, jwtSecret, (err, decoded) => {
     if (err) {
         return res.status(401).send(
-            {message: "Unauthorized!"});
+            {message: "No estás autorizado"});
     }
     req.userId = decoded.id;
     next();
