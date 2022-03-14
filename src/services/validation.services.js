@@ -194,7 +194,7 @@ function validateEmailRegex(email) {
 }
 
 
-function validateDisponibilityDate(date) {
+function validateDisponibilityDate(date, courtName) {
     return new Promise((resolve, reject) => {
         const dateRE = /^\d{4}-\d{1,2}-\d{1,2}$/;
         if (dateRE.test(date)) {
@@ -208,11 +208,24 @@ function validateDisponibilityDate(date) {
                     if (day.getFullYear() >= today.getFullYear()) {
                         if (day.getMonth() >= today.getMonth()) {
                             if (day.getDay() >= today.getDay()) {
-                                return resolve();
+                                databaseService.getCourtData(courtName).then((courtData) => {
+                                    const d = new Date(today.getTime() + courtData.numberOfDaysToBookBefore*24*60*60*1000);
+                                    if (day <= d) {
+                                        return resolve();
+                                    }                                 
+                                    return reject(`No se puede reservar con más de ${courtData.numberOfDaysToBookBefore} dias de antelación`);
+                                }).catch((err) => {
+                                    reject(err);
+                                });
+                            } else {
+                                return reject("Fecha pasada");
                             }
+                        } else {
+                            return reject("Fecha pasada");
                         }
+                    } else {
+                        return reject("Fecha pasada");
                     }
-                    return reject("Fecha pasada");
                 } else {
                     return reject("Fecha inválida");
                 }

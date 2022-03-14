@@ -36,7 +36,7 @@ function validateLogin(req, res, next) {
 
 function validateDisponibility(req, res, next) {
     const promises = [
-        validationService.validateDisponibilityDate(req.body.bookingDay),
+        validationService.validateDisponibilityDate(req.body.bookingDay, req.body.courtName),
         validationService.validateCourtName(req.body.courtName)
     ]
     Promise.all(promises).then(() => {

@@ -38,6 +38,14 @@ class Court extends Model {}
         numberOfHoursToCancelCourt: {
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        opensAt: {  //first hour of the day you can start playing in the court
+            type: DataTypes.TIME, 
+            defaultValue: "10:00",
+        },
+        closesAt: { //last hour of the day you can start playing in the court
+            type: DataTypes.TIME,
+            defaultValue: "19:30",
         }
     }, {
         sequelize,

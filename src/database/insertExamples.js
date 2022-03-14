@@ -54,7 +54,9 @@ arrayOfInsertions.push(() => {
         priceWithoutLight: 35,
         priceWithLight: 40,
         numberOfDaysToBookBefore: 2,
-        numberOfHoursToCancelCourt: 6
+        numberOfHoursToCancelCourt: 6,
+        opensAt: "9:00",
+        closesAt: "19:30"
     });
 });
 
@@ -65,39 +67,54 @@ arrayOfInsertions.push(() => {
         priceWithoutLight: 30,
         priceWithLight: 45,
         numberOfDaysToBookBefore: 2,
-        numberOfHoursToCancelCourt: 4
+        numberOfHoursToCancelCourt: 4,
+        opensAt: "8:30",
+        closesAt: "21:30"
     });
 });
 
 
-// //Booking
-// arrayOfInsertions.push(() => {
-//     return models.Booking.create({
-//         userId: 1,
-//         courtId: 1
-//     });
-// });
+//Booking
 
-// arrayOfInsertions.push(() => {
-//     return models.Booking.create({
-//         userId: 1,
-//         courtId: 2
-//     });
-// });
+arrayOfInsertions.push(() => {
+    return models.Booking.create({
+        userId: 1,
+        courtId: 1,
+        day: "2022-03-14",
+        time: "12:00",
+        withLight: true
+    });
+});
 
-// arrayOfInsertions.push(() => {
-//     return models.Booking.create({
-//         userId: 2,
-//         courtId: 1
-//     });
-// });
+arrayOfInsertions.push(() => {
+    return models.Booking.create({
+        userId: 1,
+        courtId: 1,
+        day: "2022-03-14",
+        time: "9:00",
+        withLight: true
+    });
+});
 
-// arrayOfInsertions.push(() => {
-//     return models.Booking.create({
-//         userId: 2,
-//         courtId: 2
-//     });
-// });
+arrayOfInsertions.push(() => {
+    return models.Booking.create({
+        userId: 1,
+        courtId: 1,
+        day: "2022-03-15",
+        time: "16:30",
+        withLight: true
+    });
+});
+
+arrayOfInsertions.push(() => {
+    return models.Booking.create({
+        userId: 1,
+        courtId: 2,
+        day: "2022-03-15",
+        time: "8:30",
+        withLight: true
+    });
+});
 
 
 // //Ranking

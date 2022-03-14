@@ -124,10 +124,63 @@ function courtNameExists(courtName) {
 }
 
 
+/**
+ *  ------------------
+ * @param {Object} 
+ * @return {}
+ */
+function getCourtData(courtName) {
+    return new Promise((resolve, reject) => {
+        models.Court.findOne({
+            where: {name: courtName},
+            attributes: ["opensAt", "closesAt", "bookReservationTime", "numberOfDaysToBookBefore"],
+            raw: true
+        }).then((data) => {
+            if (data) {
+                return resolve(data);
+            } else {
+                return reject(`No existe ninguna pista con el nombre: ${courtName}`);
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+/**
+ *  ------------------
+ * @param {Object} 
+ * @return {}
+ */
+function getCourtDisponibility(bookingDay, courtName) {
+    return new Promise((resolve, reject) => {
+        models.Booking.findAll({
+            include: {
+                model: models.Court,
+                as: "court",
+                required: true,
+                where: {name: courtName},
+                attributes: []
+            },
+            where: {day: bookingDay},
+            attributes: ["day", "time"],
+            order: [['time', 'ASC']],
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            console.log(err);
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     emailExists,
     signIn,
     signUp,
     getCourts,
     courtNameExists,
+    getCourtData,
+    getCourtDisponibility,
 }

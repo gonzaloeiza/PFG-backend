@@ -9,7 +9,9 @@ function getCourts(req, res, next) {
 }
 
 function getDisponibility(req, res, next) {
-    bookingService.getDisponibility().then((data) => {
+    const bookingDay = req.body.bookingDay;
+    const courtName = req.body.courtName;
+    bookingService.getDisponibility(bookingDay, courtName).then((data) => {
         res.status(200).send({message: data});
     }).catch((err) => {
         res.status(400).send({message: err});

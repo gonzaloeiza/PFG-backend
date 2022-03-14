@@ -10,6 +10,18 @@ class Booking extends Model {}
             autoIncrement: true,
             primaryKey: true
         },
+        day: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        time: {
+            type: DataTypes.TIME,
+            allowNull: false
+        },
+        withLight: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
+        }
     }, {
         sequelize,
         modelName: "booking"
