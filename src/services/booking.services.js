@@ -10,8 +10,15 @@ function getCourts() {
     });
 }
 
+function getDisponibility() {
+    return new Promise((resolve, reject) => {
+        resolve("servicio disponibility");
+    });
+}
+
 
 module.exports = {
     getCourts,
+    getDisponibility,
 }
 

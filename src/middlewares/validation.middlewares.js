@@ -34,8 +34,20 @@ function validateLogin(req, res, next) {
     }
 }
 
+function validateDisponibility(req, res, next) {
+    const promises = [
+        validationService.validateDisponibilityDate(req.body.bookingDay),
+        validationService.validateCourtName(req.body.courtName)
+    ]
+    Promise.all(promises).then(() => {
+        return next();
+    }).catch((err) => {
+        res.status(400).send(err);
+    });
+}
 
 module.exports = {
     validateSignup,
     validateLogin,
+    validateDisponibility
 }

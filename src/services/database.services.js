@@ -58,7 +58,7 @@ function signIn(email, password) {
             } else {
                 return reject("email/contraseña incorrecta.");
             }         
-        }).catch((err) => {
+        }).catch(() => {
             return reject(databaseError);
         });
     });
@@ -75,12 +75,17 @@ function signUp(userData) {
         models.User.create(userData)
         .then((data) => {
             return resolve(data);
-        }).catch((err) => {
+        }).catch(() => {
             return reject(databaseError);
         });
     });   
 }
 
+/**
+ *  ------------------
+ * @param {Object} 
+ * @return {}
+ */
 function getCourts() {
     return new Promise((resolve, reject) => {
         models.Court.findAll({
@@ -88,16 +93,41 @@ function getCourts() {
             raw: true
         }).then((data) => {
             return resolve(data);
-        }).catch((err) => {
+        }).catch(() => {
             return reject(databaseError);
         });
     });
 }
+
+
+/**
+ *  ------------------
+ * @param {Object} 
+ * @return {}
+ */
+function courtNameExists(courtName) {
+    return new Promise((resolve, reject) => {
+        models.Court.findOne({
+            where: {name: courtName},
+            attributes: ["id"],
+            raw:true
+        }).then((data) => {
+            if (data) {
+                return resolve();
+            } else {
+                return reject(`No existe ninguna pista con el nombre: ${courtName}`);
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
 
 module.exports = {
     emailExists,
     signIn,
     signUp,
     getCourts,
-
+    courtNameExists,
 }

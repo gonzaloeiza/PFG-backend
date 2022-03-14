@@ -76,7 +76,6 @@ function validateBirthDate(dateBirth) {
         } else {
             return reject("Fecha inválida");
         }
-
     });
 }
 
@@ -194,6 +193,52 @@ function validateEmailRegex(email) {
     }
 }
 
+
+function validateDisponibilityDate(date) {
+    return new Promise((resolve, reject) => {
+        const dateRE = /^\d{4}-\d{1,2}-\d{1,2}$/;
+        if (dateRE.test(date)) {
+            const day = new Date(date);
+            const dayNumber = day.getTime();
+            if (!dayNumber && dayNumber !== 0) {
+                return reject("Fecha inválida");
+            } else {
+                if (day.toISOString().slice(0, 10) === date) {
+                    const today = new Date();
+                    if (day.getFullYear() >= today.getFullYear()) {
+                        if (day.getMonth() >= today.getMonth()) {
+                            if (day.getDay() >= today.getDay()) {
+                                return resolve();
+                            }
+                        }
+                    }
+                    return reject("Fecha pasada");
+                } else {
+                    return reject("Fecha inválida");
+                }
+            }
+        } else {
+            return reject("Fecha inválida");
+        }
+    });
+}
+
+function validateCourtName(court) {
+    return new Promise((resolve, reject) => {
+        const courtRE = /^[a-zA-Z0-9ªº-\s]*$/;
+        if (courtRE.test(court)) {
+            databaseService.courtNameExists(court).then(() => {
+                return resolve();
+            }).catch((err) => {
+                return reject(err);
+            });
+        } else {
+            return reject("Nombre de pista no válido. No introduzcas caracteres ambiguos")
+        }
+    });
+}
+
+
 module.exports = {
     validateDNI,
     validateName,
@@ -210,4 +255,6 @@ module.exports = {
     validateProvince,
     validatePostalCode,
     validateEmailRegex,
+    validateDisponibilityDate,
+    validateCourtName,
 }
