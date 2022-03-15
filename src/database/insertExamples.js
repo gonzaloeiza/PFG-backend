@@ -116,6 +116,16 @@ arrayOfInsertions.push(() => {
     });
 });
 
+arrayOfInsertions.push(() => {
+    return models.Booking.create({
+        userId: 1,
+        courtId: 2,
+        day: "2022-03-15",
+        time: "17:30",
+        withLight: true
+    });
+});
+
 
 // //Ranking
 // arrayOfInsertions.push(() => {

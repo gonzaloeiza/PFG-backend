@@ -207,7 +207,7 @@ function validateDisponibilityDate(date, courtName) {
                     const today = new Date();
                     if (day.getFullYear() >= today.getFullYear()) {
                         if (day.getMonth() >= today.getMonth()) {
-                            if (day.getDay() >= today.getDay()) {
+                            if (day.getDate() >= today.getDate()) {
                                 databaseService.getCourtData(courtName).then((courtData) => {
                                     const d = new Date(today.getTime() + courtData.numberOfDaysToBookBefore*24*60*60*1000);
                                     if (day <= d) {

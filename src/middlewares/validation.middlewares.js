@@ -42,7 +42,7 @@ function validateDisponibility(req, res, next) {
     Promise.all(promises).then(() => {
         return next();
     }).catch((err) => {
-        res.status(400).send(err);
+        res.status(400).send({message: err});
     });
 }
 
