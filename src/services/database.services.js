@@ -133,7 +133,7 @@ function getCourtData(courtName) {
     return new Promise((resolve, reject) => {
         models.Court.findOne({
             where: {name: courtName},
-            attributes: ["opensAt", "closesAt", "bookReservationTime", "numberOfDaysToBookBefore"],
+            attributes: ["id", "opensAt", "closesAt", "bookReservationTime", "numberOfDaysToBookBefore"],
             raw: true
         }).then((data) => {
             if (data) {
@@ -168,9 +168,33 @@ function getCourtDisponibility(bookingDay, courtName) {
             raw: true
         }).then((data) => {
             return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+
+/**
+ *  ------------------
+ * @param {Object} 
+ * @return {}
+ */
+function bookCourt(userId, courtId, date, withLight) {
+    const day = `${date.getFullYear()}-${("0" + date.getMonth()).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+    const time = `${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`;
+    return new Promise((resolve, reject) => {
+        models.Booking.create({
+            day: day,
+            time: time,
+            withLight: withLight,
+            userId: userId,
+            courtId: courtId
+        }).then((data) => {
+            return resolve(data);
         }).catch((err) => {
             console.log(err);
-            return reject(databaseError);
+            return reject(err);
         });
     });
 }
@@ -183,4 +207,5 @@ module.exports = {
     courtNameExists,
     getCourtData,
     getCourtDisponibility,
+    bookCourt,
 }

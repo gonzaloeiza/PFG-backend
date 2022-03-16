@@ -251,6 +251,17 @@ function validateCourtName(court) {
     });
 }
 
+function validateBookingDate(bookingDate) {
+    return new Promise((resolve, reject) => {
+            var date = new Date(bookingDate);
+            console.log(date);
+            if (date != "Invalid Date") {
+                return resolve(date);
+            } else {
+                return reject("La fecha introducida no es válida");
+            }
+    });
+}
 
 module.exports = {
     validateDNI,
@@ -270,4 +281,5 @@ module.exports = {
     validateEmailRegex,
     validateDisponibilityDate,
     validateCourtName,
+    validateBookingDate,
 }

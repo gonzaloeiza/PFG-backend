@@ -46,8 +46,24 @@ function validateDisponibility(req, res, next) {
     });
 }
 
+
+function validateBooking(req, res, next) {
+    const promises = [
+        validationService.validateCourtName(req.body.courtName),
+        validationService.validateBookingDate(req.body.bookingDate),
+
+    ]
+
+    Promise.all(promises).then(() => {
+        return next();
+    }).catch((err) => {
+        res.status(400).send({message: err});
+    });
+}
+
 module.exports = {
     validateSignup,
     validateLogin,
-    validateDisponibility
+    validateDisponibility,
+    validateBooking,
 }
