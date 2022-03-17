@@ -45,11 +45,17 @@ function getDisponibility(bookingDay, courtName) {
         });
     });
 }
-
-function book(userId, courtName, date, withLight) {
+    
+function book(userId, courtName, bookingDate, withLight) {
     return new Promise((resolve, reject) => {
         databaseService.getCourtData(courtName).then((courtData) => {
-            databaseService.bookCourt(userId, courtData.id, date, withLight).then((data) => {
+            var date = moment(bookingDate, "YYYY-MM-DD HH:mm");
+            var light = true;
+            if (withLight === "false") {
+                light = false;
+            }
+            var amountToPay = light ? courtData.priceWithLight : courtData.priceWithoutLight;
+            databaseService.bookCourt(userId, courtData.id, date, light, amountToPay).then((data) => {
                 return resolve(data);
             }).catch((err) => {
                 return reject(err);

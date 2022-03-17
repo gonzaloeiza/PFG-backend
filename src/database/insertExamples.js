@@ -81,7 +81,8 @@ arrayOfInsertions.push(() => {
         courtId: 1,
         day: "2022-03-17",
         time: "12:00",
-        withLight: true
+        withLight: true,
+        amountToPay: 12.22
     });
 });
 
@@ -91,7 +92,8 @@ arrayOfInsertions.push(() => {
         courtId: 1,
         day: "2022-03-17",
         time: "9:00",
-        withLight: true
+        withLight: true,
+        amountToPay: 12.22
     });
 });
 
@@ -101,7 +103,8 @@ arrayOfInsertions.push(() => {
         courtId: 1,
         day: "2022-03-17",
         time: "16:30",
-        withLight: true
+        withLight: true,
+        amountToPay: 12.22
     });
 });
 
@@ -111,7 +114,8 @@ arrayOfInsertions.push(() => {
         courtId: 2,
         day: "2022-03-17",
         time: "15:30",
-        withLight: true
+        withLight: true,
+        amountToPay: 12.22
     });
 });
 
@@ -121,7 +125,8 @@ arrayOfInsertions.push(() => {
         courtId: 2,
         day: "2022-03-17",
         time: "17:30",
-        withLight: true
+        withLight: true,
+        amountToPay: 12.22
     });
 });
 

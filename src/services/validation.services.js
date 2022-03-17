@@ -256,25 +256,33 @@ function validateCourtName(court) {
 function validateBookingDate(bookingDate, courtName) {
     return new Promise((resolve, reject) => {
         const date = moment(bookingDate, "YYYY-MM-DD HH:mm");
-        console.log(date.hours() + ":" + date.minutes());
-        resolve();
-            // var date = new Date(bookingDate);
-            // const day = `${date.getFullYear()}-${("0" + date.getMonth()).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
-            // if (date != "Invalid Date") {
-            //     console.log(date.getMonth());
-            //     bookingService.getDisponibility(day).then((availableTimes) => {
-            //         console.log(availableTimes);
-            //         if (availableTimes.find((element) => date === element) != undefined) {
-            //             return resolve();
-            //         } else {
-            //             return reject("La fecha introducida no es válida");
-            //         }
-            //     }).catch((err) => {
-            //         return reject(err);
-            //     });
-            // } else {
-            //     return reject("La fecha introducida no es válida");
-            // }
+        if (date.isValid() && date >= moment()) {
+            validateDisponibilityDate(date.format("YYYY-MM-DD"), courtName).then(() => {
+                bookingService.getDisponibility(date.format("YYYY-MM-DD"), courtName).then((availableTimes) => {
+                    if (availableTimes.find((element) => date.format("HH:mm") === element) != undefined) {
+                        return resolve();
+                    } else {
+                        return reject("La fecha introducida no es válida");
+                    }
+                }).catch((err) => {
+                    return reject(err);
+                });
+            }).catch((err) => {
+                return reject(err);
+            });
+        } else {
+            return reject("La fecha introducida no es válida");
+        }
+    });
+}
+
+function validateBoolean(boolean) {
+    return new Promise((resolve, reject) => {
+        if (boolean === "true" || boolean === "false") {
+            return resolve();
+        } else {
+            return reject("Valor para luz no válido");
+        }
     });
 }
 
@@ -297,4 +305,5 @@ module.exports = {
     validateDisponibilityDate,
     validateCourtName,
     validateBookingDate,
+    validateBoolean,
 }

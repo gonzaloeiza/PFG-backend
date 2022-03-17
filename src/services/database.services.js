@@ -133,7 +133,6 @@ function getCourtData(courtName) {
     return new Promise((resolve, reject) => {
         models.Court.findOne({
             where: {name: courtName},
-            attributes: ["id", "opensAt", "closesAt", "bookReservationTime", "numberOfDaysToBookBefore"],
             raw: true
         }).then((data) => {
             if (data) {
@@ -180,20 +179,20 @@ function getCourtDisponibility(bookingDay, courtName) {
  * @param {Object} 
  * @return {}
  */
-function bookCourt(userId, courtId, date, withLight) {
-    const day = `${date.getFullYear()}-${("0" + date.getMonth()).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
-    const time = `${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`;
+function bookCourt(userId, courtId, date, withLight, amountToPay) {
     return new Promise((resolve, reject) => {
         models.Booking.create({
-            day: day,
-            time: time,
+            day: date.format("YYYY-MM-DD"),
+            time: date.format("HH:mm"),
             withLight: withLight,
+            amountToPay: amountToPay,
             userId: userId,
             courtId: courtId
         }).then((data) => {
-            return resolve(data);
+            if (data) {
+                return resolve("Reserva realizada con éxito");
+            }
         }).catch((err) => {
-            console.log(err);
             return reject(err);
         });
     });

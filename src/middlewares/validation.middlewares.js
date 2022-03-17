@@ -50,7 +50,8 @@ function validateDisponibility(req, res, next) {
 function validateBooking(req, res, next) {
     const promises = [
         validationService.validateCourtName(req.body.courtName),
-        validationService.validateBookingDate(req.body.bookingDate),
+        validationService.validateBookingDate(req.body.bookingDate, req.body.courtName),
+        validationService.validateBoolean(req.body.withLight)
 
     ]
 

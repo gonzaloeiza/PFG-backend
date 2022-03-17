@@ -21,9 +21,8 @@ function getDisponibility(req, res, next) {
 function book(req, res, next) {
     const userId = req.userId;
     const courtName = req.body.courtName;
-    var date = new Date(req.body.bookingDate);
-    date.setTime(date.getTime() + new Date().getTimezoneOffset()*60*1000);
-    const withLight = Boolean(req.body.withLight);
+    const date = req.body.bookingDate;
+    const withLight = req.body.withLight;
     bookingService.book(userId, courtName, date, withLight).then((data) => {
         return res.status(200).send({message: data});
     }).catch((err) => {
