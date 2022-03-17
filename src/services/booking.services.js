@@ -1,4 +1,5 @@
 const databaseService = require("./database.services");
+const moment = require('moment');
 
 function getCourts() {
     return new Promise((resolve, reject) => {
@@ -14,30 +15,27 @@ function getDisponibility(bookingDay, courtName) {
     return new Promise((resolve, reject) => {
         databaseService.getCourtData(courtName).then((courtData) => {
             databaseService.getCourtDisponibility(bookingDay, courtName).then((bookings) => {
-                var starts = new Date(`${bookingDay}T${courtData.opensAt}.000Z`);
-                const finishes = new Date(`${bookingDay}T${courtData.closesAt}.000Z`);
-                var currentTime = new Date();
-                currentTime.setTime(currentTime.getTime() - new Date().getTimezoneOffset()*60*1000);
+                var starts = moment(bookingDay + " " + courtData.opensAt, "YYYY/MM/DD HH:mm");
+                const finishes = moment(bookingDay + " " + courtData.closesAt, "YYYY/MM/DD HH:mm");
+                const currentTime = moment();
                 var availableTimes = [];
                 var i = 0;
                 while (starts <= finishes) {
                     if (i < bookings.length) {
-                        var d = new Date(`${bookings[i].day}T${bookings[i].time}.000Z`)
-                        if (starts.getTime() === d.getTime()) {
+                        if (starts.format("HH:mm:ss") === bookings[i].time) {
                             i++;
                         } else {
-                            if (starts.getTime() >= currentTime.getTime()) {
-                                availableTimes.push(starts);
+                            if (starts >= currentTime) {
+                                availableTimes.push(starts.format("HH:mm"));
                             }
-                        }
+                        } 
                     } else {
-                        if (starts.getTime() >= currentTime.getTime()) {
-                            availableTimes.push(starts);
+                        if (starts >= currentTime) {
+                            availableTimes.push(starts.format("HH:mm"));
                         }
                     }
-                    starts = new Date(starts.getTime() + courtData.bookReservationTime * 60000); 
+                    starts.add(courtData.bookReservationTime, "minutes");
                 }
-                
                 return resolve(availableTimes);
             }).catch((err) => {
                 return reject(err);

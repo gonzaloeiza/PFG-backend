@@ -79,7 +79,7 @@ arrayOfInsertions.push(() => {
     return models.Booking.create({
         userId: 1,
         courtId: 1,
-        day: "2022-03-16",
+        day: "2022-03-17",
         time: "12:00",
         withLight: true
     });
@@ -89,7 +89,7 @@ arrayOfInsertions.push(() => {
     return models.Booking.create({
         userId: 1,
         courtId: 1,
-        day: "2022-03-16",
+        day: "2022-03-17",
         time: "9:00",
         withLight: true
     });
@@ -99,7 +99,7 @@ arrayOfInsertions.push(() => {
     return models.Booking.create({
         userId: 1,
         courtId: 1,
-        day: "2022-03-16",
+        day: "2022-03-17",
         time: "16:30",
         withLight: true
     });
@@ -109,8 +109,8 @@ arrayOfInsertions.push(() => {
     return models.Booking.create({
         userId: 1,
         courtId: 2,
-        day: "2022-03-16",
-        time: "8:30",
+        day: "2022-03-17",
+        time: "15:30",
         withLight: true
     });
 });
@@ -119,7 +119,7 @@ arrayOfInsertions.push(() => {
     return models.Booking.create({
         userId: 1,
         courtId: 2,
-        day: "2022-03-16",
+        day: "2022-03-17",
         time: "17:30",
         withLight: true
     });
