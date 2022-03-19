@@ -14,7 +14,11 @@ class Booking extends Model {}
             type: DataTypes.DATEONLY,
             allowNull: false
         },
-        time: {
+        startTime: {
+            type: DataTypes.TIME,
+            allowNull: false
+        },
+        finishTime: {
             type: DataTypes.TIME,
             allowNull: false
         },

@@ -80,7 +80,8 @@ arrayOfInsertions.push(() => {
         userId: 1,
         courtId: 1,
         day: "2022-03-17",
-        time: "12:00",
+        startTime: "12:00",
+        finishTime: "13:30",
         withLight: true,
         amountToPay: 12.22
     });
@@ -91,7 +92,8 @@ arrayOfInsertions.push(() => {
         userId: 1,
         courtId: 1,
         day: "2022-03-17",
-        time: "9:00",
+        startTime: "9:00",
+        finishTime: "10:30",
         withLight: true,
         amountToPay: 12.22
     });
@@ -102,7 +104,8 @@ arrayOfInsertions.push(() => {
         userId: 1,
         courtId: 1,
         day: "2022-03-17",
-        time: "16:30",
+        startTime: "16:30",
+        finishTime: "18:00",
         withLight: true,
         amountToPay: 12.22
     });
@@ -113,7 +116,8 @@ arrayOfInsertions.push(() => {
         userId: 1,
         courtId: 2,
         day: "2022-03-17",
-        time: "15:30",
+        startTime: "15:30",
+        finishTime: "17:00",
         withLight: true,
         amountToPay: 12.22
     });
@@ -124,7 +128,8 @@ arrayOfInsertions.push(() => {
         userId: 1,
         courtId: 2,
         day: "2022-03-17",
-        time: "17:30",
+        startTime: "17:30",
+        finishTime: "18:30",
         withLight: true,
         amountToPay: 12.22
     });

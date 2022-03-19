@@ -162,8 +162,8 @@ function getCourtDisponibility(bookingDay, courtName) {
                 attributes: []
             },
             where: {day: bookingDay},
-            attributes: ["day", "time"],
-            order: [['time', 'ASC']],
+            attributes: ["day", "startTime"],
+            order: [['startTime', 'ASC']],
             raw: true
         }).then((data) => {
             return resolve(data);
@@ -179,11 +179,12 @@ function getCourtDisponibility(bookingDay, courtName) {
  * @param {Object} 
  * @return {}
  */
-function bookCourt(userId, courtId, date, withLight, amountToPay) {
+function bookCourt(userId, courtId, courtBookReservationTime, date, withLight, amountToPay) {
     return new Promise((resolve, reject) => {
         models.Booking.create({
             day: date.format("YYYY-MM-DD"),
-            time: date.format("HH:mm"),
+            startTime: date.format("HH:mm"),
+            finishTime: date.clone().add(courtBookReservationTime, "m").format("HH:mm"),
             withLight: withLight,
             amountToPay: amountToPay,
             userId: userId,
@@ -192,8 +193,8 @@ function bookCourt(userId, courtId, date, withLight, amountToPay) {
             if (data) {
                 return resolve("Reserva realizada con éxito");
             }
-        }).catch((err) => {
-            return reject(err);
+        }).catch(() => {
+            return reject(databaseError);
         });
     });
 }

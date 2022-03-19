@@ -22,7 +22,7 @@ function getDisponibility(bookingDay, courtName) {
                 var i = 0;
                 while (starts <= finishes) {
                     if (i < bookings.length) {
-                        if (starts.format("HH:mm:ss") === bookings[i].time) {
+                        if (starts.format("HH:mm:ss") === bookings[i].startTime) {
                             i++;
                         } else {
                             if (starts >= currentTime) {
@@ -55,9 +55,10 @@ function book(userId, courtName, bookingDate, withLight) {
                 light = false;
             }
             var amountToPay = light ? courtData.priceWithLight : courtData.priceWithoutLight;
-            databaseService.bookCourt(userId, courtData.id, date, light, amountToPay).then((data) => {
+            databaseService.bookCourt(userId, courtData.id, courtData.bookReservationTime, date, light, amountToPay).then((data) => {
                 return resolve(data);
             }).catch((err) => {
+                console.log(err)
                 return reject(err);
             });    
         }).catch((err) => {
