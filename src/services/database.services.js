@@ -229,6 +229,7 @@ function getActiveBookings(userId, fromDay, toDay) {
                 ]
             },
             attributes: {exclude: ["courtId", "userId", "createdAt", "updatedAt"]},
+            order: [['day', 'desc'], ['startTime', 'desc']],
             raw: true
         }).then((data) => {
             return resolve(data);
@@ -250,7 +251,7 @@ function getActiveBookings(userId, fromDay, toDay) {
             include: {
                 model: models.Court,
                 as: "court",
-                attributes: ["name"]
+                attributes: ["name", "numberOfHoursToCancelCourt"]
             },
             where: {
                 [Op.and]: [
@@ -264,6 +265,7 @@ function getActiveBookings(userId, fromDay, toDay) {
                 ]
             },
             attributes: {exclude: ["courtId", "userId", "createdAt", "updatedAt"]},
+            order: [['day', 'desc'], ['startTime', 'desc']],
             raw: true
         }).then((data) => {
             return resolve(data);
