@@ -51,8 +51,7 @@ function validateBooking(req, res, next) {
     const promises = [
         validationService.validateCourtName(req.body.courtName),
         validationService.validateBookingDate(req.body.bookingDate, req.body.courtName),
-        validationService.validateBoolean(req.body.withLight)
-
+        validationService.validateBooleanWithLight(req.body.withLight)
     ]
 
     Promise.all(promises).then(() => {
@@ -62,9 +61,25 @@ function validateBooking(req, res, next) {
     });
 }
 
+function validateGetBookings(req, res, next) {
+    const promises = [
+        validationService.validateDateOnly(req.body.fromDay),
+        validationService.validateDateOnly(req.body.toDay),        
+        validationService.validateBooleanOnlyActiveBookings(req.body.onlyActiveBookings),
+    ]
+
+    Promise.all(promises).then(() => {
+        return next();
+    }).catch((err) => {
+        console.log(err);
+        res.status(400).send({message: err});
+    });
+}
+
 module.exports = {
     validateSignup,
     validateLogin,
     validateDisponibility,
     validateBooking,
+    validateGetBookings,
 }

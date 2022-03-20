@@ -67,8 +67,31 @@ function book(userId, courtName, bookingDate, withLight) {
     });
 }
 
+function getBookings(userId, fromDay, toDay, onlyActiveBookings) {
+    var onlyActive = true;
+    if (onlyActiveBookings === "false") {
+        onlyActive = false;
+    }
+    return new Promise((resolve, reject) => {
+        if (onlyActive) {  
+            databaseService.getActiveBookings(userId, fromDay, toDay).then((bookings) => {
+                return resolve(bookings);
+            }).catch((err) => {
+                return reject(err);
+            });
+        } else {
+            databaseService.getAllBookings(userId, fromDay, toDay).then((bookings) => {
+                return resolve(bookings);
+            }).catch((err) => {
+                return reject(err);
+            });
+        }
+    });
+}
+
 module.exports = {
     getCourts,
     getDisponibility,
     book,
+    getBookings,
 }

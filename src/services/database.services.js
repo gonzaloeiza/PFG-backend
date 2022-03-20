@@ -1,6 +1,8 @@
 const models = require("../database/models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const { Op } = require("sequelize");
+const moment = require('moment');
 
 const databaseError = "Error, intentelo de nuevo más tarde";
 
@@ -199,6 +201,79 @@ function bookCourt(userId, courtId, courtBookReservationTime, date, withLight, a
     });
 }
 
+/**
+ *  ------------------
+ * @param {Object} 
+ * @return {}
+ */
+function getActiveBookings(userId, fromDay, toDay) {
+    return new Promise((resolve, reject) => {
+        models.Booking.findAll({
+            include: {
+                model: models.Court,
+                as: "court",
+                attributes: ["name", "numberOfHoursToCancelCourt"]
+            },
+            where: {
+                [Op.and]: [
+                    {userId: userId},
+                    {day: {
+                        [Op.gte]: fromDay
+                    }},
+                    {day: {
+                        [Op.lte]: toDay
+                    }},
+                    {day: {
+                        [Op.gte]: moment().format("YYYY-MM-DD")
+                    }}
+                ]
+            },
+            attributes: {exclude: ["courtId", "userId", "createdAt", "updatedAt"]},
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            console.log(err);
+            return reject(databaseError);
+        });
+    });
+}
+
+/**
+ *  ------------------
+ * @param {Object} 
+ * @return {}
+ */
+ function getAllBookings(userId, fromDay, toDay) {
+    return new Promise((resolve, reject) => {
+        models.Booking.findAll({
+            include: {
+                model: models.Court,
+                as: "court",
+                attributes: ["name"]
+            },
+            where: {
+                [Op.and]: [
+                    {userId: userId},
+                    {day: {
+                        [Op.gte]: fromDay
+                    }},
+                    {day: {
+                        [Op.lte]: toDay
+                    }},
+                ]
+            },
+            attributes: {exclude: ["courtId", "userId", "createdAt", "updatedAt"]},
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            console.log(err);
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     emailExists,
     signIn,
@@ -208,4 +283,6 @@ module.exports = {
     getCourtData,
     getCourtDisponibility,
     bookCourt,
+    getActiveBookings,
+    getAllBookings,
 }
