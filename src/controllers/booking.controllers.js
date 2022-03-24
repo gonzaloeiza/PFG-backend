@@ -40,7 +40,16 @@ function getBookings(req, res, next) {
     }).catch((err) => {
         return res.status(400).send({message: err});
     });
+}
 
+function cancelBooking(req, res, next) {
+    const userId = req.userId;
+    const bookingId = req.body.bookingId;
+    bookingService.cancelBooking(userId, bookingId).then((data) => {
+        return res.status(200).send({message: data});
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
 }
 
 module.exports = {
@@ -48,4 +57,5 @@ module.exports = {
     getDisponibility,
     book,
     getBookings,
+    cancelBooking,
 }

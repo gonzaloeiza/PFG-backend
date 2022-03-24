@@ -276,6 +276,62 @@ function getActiveBookings(userId, fromDay, toDay) {
     });
 }
 
+
+/**
+ *  ------------------
+ * @param {Object} 
+ * @return {}
+ */
+function getBookingData(userId, bookingId) {
+    return new Promise((resolve, reject) => {
+        models.Booking.findOne({
+            include: {
+                model: models.Court,
+                as: "court",
+                required: true,
+                attributes: ["numberOfHoursToCancelCourt"]
+            },
+            where: [
+                {id: bookingId},
+                {userId: userId}
+            ],
+            attributes: ["day", "startTime"],
+            raw: true
+        }).then((data) => {
+            if (data) {
+                return resolve(data);
+            } else {
+                return reject("No existen reservas con ese id para este usuario");
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+
+}
+
+
+/**
+ *  ------------------
+ * @param {Object} 
+ * @return {}
+ */
+function cancelBooking(userId, bookingId) {
+    return new Promise((resolve, reject) => {
+        models.Booking.destroy({
+            where: [
+                {userId: userId},
+                {id: bookingId}
+            ]
+        }).then(() => {
+            return resolve();
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+
 module.exports = {
     emailExists,
     signIn,
@@ -287,4 +343,6 @@ module.exports = {
     bookCourt,
     getActiveBookings,
     getAllBookings,
+    getBookingData,
+    cancelBooking,
 }

@@ -76,10 +76,25 @@ function validateGetBookings(req, res, next) {
     });
 }
 
+function validateCancelation(req, res, next) {
+    const promises = [
+        validationService.validateBookingIdIsInteger(req.body.bookingId),
+        validationService.validateBookingCancelation(req.userId, req.body.bookingId)
+    ];
+
+    Promise.all(promises).then(() => {
+        return next();
+    }).catch((err) => {
+        console.log(err);
+        res.status(400).send({message: err});
+    });
+}
+
 module.exports = {
     validateSignup,
     validateLogin,
     validateDisponibility,
     validateBooking,
     validateGetBookings,
+    validateCancelation,
 }

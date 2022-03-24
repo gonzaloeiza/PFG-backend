@@ -322,6 +322,31 @@ function validateDateOnly(date) {
     });
 }
 
+function validateBookingIdIsInteger(bookingId) {
+    return new Promise((resolve, reject) => {
+        if (Number.isInteger(Number(bookingId))) {
+            return resolve();
+        } else {
+            return reject("Id de reserva incorrecto");
+        }
+    });
+}
+
+function validateBookingCancelation(userId, bookingId) {
+    return new Promise((resolve, reject) => {
+        databaseService.getBookingData(userId, bookingId).then((data) => {
+            const bookingDate = moment(data.day + " " + data.startTime, "YYYY-MM-DD HH:mm:SS");
+            if (moment().add(data["court.numberOfHoursToCancelCourt"], "hours") < bookingDate) {
+                return resolve();
+            } else {
+                return reject("Ya no es posible cancelar la pista");
+            }
+        }).catch((err) => {
+            return reject(err);
+        });
+    });
+}
+
 module.exports = {
     validateDNI,
     validateName,
@@ -344,4 +369,6 @@ module.exports = {
     validateBooleanWithLight,
     validateBooleanOnlyActiveBookings,
     validateDateOnly,
+    validateBookingIdIsInteger,
+    validateBookingCancelation,
 }

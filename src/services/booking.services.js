@@ -89,9 +89,21 @@ function getBookings(userId, fromDay, toDay, onlyActiveBookings) {
     });
 }
 
+function cancelBooking(userId, bookingId) {
+    return new Promise((resolve, reject) => {
+        databaseService.cancelBooking(userId, bookingId).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        });
+    });
+}
+
+
 module.exports = {
     getCourts,
     getDisponibility,
     book,
     getBookings,
+    cancelBooking,
 }
