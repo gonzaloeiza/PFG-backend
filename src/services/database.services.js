@@ -324,7 +324,7 @@ function cancelBooking(userId, bookingId) {
                 {id: bookingId}
             ]
         }).then(() => {
-            return resolve();
+            return resolve("Reserva cancelada con éxito");
         }).catch(() => {
             return reject(databaseError);
         });
