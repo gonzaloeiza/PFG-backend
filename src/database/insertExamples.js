@@ -30,7 +30,8 @@ arrayOfInsertions.push(() => {
         secondSurname: " Berasategui",
         gender: "Hombre",
         dateBirth: "2000-08-02",
-        passwordHash: bcrypt.hashSync("12345678", 8)
+        passwordHash: bcrypt.hashSync("12345678", 8),
+        pendingSignUp: 0
     });
 });
 
@@ -44,7 +45,8 @@ arrayOfInsertions.push(() => {
         secondSurname: " Berasategui",
         gender: "Hombre",
         dateBirth: "2000-08-02",
-        passwordHash: bcrypt.hashSync("12345678", 8)
+        passwordHash: bcrypt.hashSync("12345678", 8),
+        pendingSignUp: 1
     });
 });
 
@@ -58,7 +60,8 @@ arrayOfInsertions.push(() => {
         secondSurname: " Berasategui",
         gender: "Hombre",
         dateBirth: "2000-08-02",
-        passwordHash: bcrypt.hashSync("12345678", 8)
+        passwordHash: bcrypt.hashSync("12345678", 8),
+        pendingSignUp: 1
     });
 });
 

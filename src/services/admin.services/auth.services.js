@@ -1,8 +1,8 @@
 const databaseService = require("./database.services");
 
-function login(email, password) {
+function signin(email, password) {
     return new Promise((resolve, reject) => {
-        databaseService.login(email, password).then((data) => {
+        databaseService.signin(email, password).then((data) => {
             return resolve(data);
         }).catch((err) => {
             return reject(err);
@@ -12,5 +12,5 @@ function login(email, password) {
 
 
 module.exports = {
-    login,
+    signin,
 }

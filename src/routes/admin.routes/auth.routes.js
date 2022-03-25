@@ -5,6 +5,6 @@ const { validationMiddleware } = require('../../middlewares').adminMiddleware;
 const { authController } = require('../../controllers').adminController;
 
 
-router.post("/login", validationMiddleware.validateLogin, authController.login);
+router.post("/signin", validationMiddleware.validateLogin, authController.signin);
 
 module.exports = router;
