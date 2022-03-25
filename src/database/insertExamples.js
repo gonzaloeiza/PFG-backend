@@ -3,6 +3,22 @@ const bcrypt = require("bcryptjs");
 
 arrayOfInsertions = []
 
+//Admins
+arrayOfInsertions.push(() => {
+    return models.Admin.create({
+        email: "admin@gmail.com",
+        passwordHash: bcrypt.hashSync("12345678", 8)
+    });
+});
+
+arrayOfInsertions.push(() => {
+    return models.Admin.create({
+        email: "admin2@gmail.com",
+        passwordHash: bcrypt.hashSync("12345678", 8)
+    });
+});
+
+
 //Users
 arrayOfInsertions.push(() => {
     return models.User.create({

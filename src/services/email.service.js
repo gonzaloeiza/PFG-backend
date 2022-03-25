@@ -26,6 +26,6 @@ function sendSignUpEmail(userEmail, userName) {
 }
 
 
-module.exports =  {
+module.exports = {
     sendSignUpEmail
 }
