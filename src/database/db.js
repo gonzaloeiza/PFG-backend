@@ -17,10 +17,10 @@ module.exports = sequelize;
 require('./models');
 
 
-sequelize.sync({force: true}) // sync: true -->  es para resetear la base de datos al correr de nuevo el programa
+sequelize.sync({force: false}) // sync: true -->  es para resetear la base de datos al correr de nuevo el programa
 .then(async () => {
     console.log("Conectado a la base de datos");
-    require('./insertExamples');
+    // require('./insertExamples');
 })
 .catch((err) => {
     console.log(err);

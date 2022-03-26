@@ -52,6 +52,7 @@ function getPendingUsers() {
         models.User.findAll({
             where: {pendingSignUp: true},
             attributes: {exclude: ["passwordHash", "createdAt", "pendingSignUp"]},
+            order: [["updatedAt", "DESC"]],
             raw: true
         }).then((users) => {
             return resolve(users);
