@@ -40,7 +40,8 @@ function signIn(email, password) {
     return new Promise((resolve, reject) => {
         models.User.findOne({
             where: {
-                email: email
+                email: email,
+                pendingSignup: false
             },
             attributes: ["id", "name", "passwordHash"],
             raw: true
