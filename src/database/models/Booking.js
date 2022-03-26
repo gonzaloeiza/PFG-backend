@@ -29,6 +29,11 @@ class Booking extends Model {}
         amountToPay: {
             type: DataTypes.DOUBLE,
             allowNull: false
+        },
+        paid: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         }
     }, {
         sequelize,
