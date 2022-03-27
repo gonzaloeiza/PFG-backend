@@ -108,9 +108,27 @@ function rejectUser(userId) {
     });
 }
 
+
+/**
+ *  this function gets all the courts and their information that are stored in the databases
+ * @return {Array} returns an array ob court objects
+ */
+function getCourts() {
+    return new Promise((resolve, reject) => {
+        models.Court.findAll({
+            raw:true
+        }).then((data) => {
+            return resolve(data);     
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     signin,
     getPendingUsers,
     acceptUser,
     rejectUser,
+    getCourts,
 }
