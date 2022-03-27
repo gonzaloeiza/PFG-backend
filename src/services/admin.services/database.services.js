@@ -110,7 +110,7 @@ function rejectUser(userId) {
 
 
 /**
- *  this function gets all the courts and their information that are stored in the databases
+ * this function gets all the courts and their information that are stored in the databases
  * @return {Array} returns an array ob court objects
  */
 function getCourts() {
@@ -125,10 +125,44 @@ function getCourts() {
     });
 }
 
+
+/**
+ * 
+ * @return {} 
+ */
+function getBookings(fromDay, toDay) {
+    return new Promise((resolve, reject) => {
+        models.Booking.findAll({
+            include: {
+                model: models.Court,
+                as: "court",
+                required: true
+            },
+            where: {
+                [Op.and]: [
+                    {day: {
+                        [Op.gte]: fromDay
+                    }},
+                    {day: {
+                        [Op.lte]: toDay
+                    }},
+                ]
+            },
+            raw: true
+        }).then((bookings) => {
+            return resolve(bookings);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+
 module.exports = {
     signin,
     getPendingUsers,
     acceptUser,
     rejectUser,
     getCourts,
+    getBookings,
 }
