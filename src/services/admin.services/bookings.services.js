@@ -6,7 +6,6 @@ function getBookings(fromDay, toDay, courtName, onlyActiveBookings, paidBookings
         var allCourts = false;
         var onlyActive = false;
         var paid = null;
-        console.log(courtName);
         if (courtName === "Todas") {
             allCourts = true;
         }
@@ -20,23 +19,10 @@ function getBookings(fromDay, toDay, courtName, onlyActiveBookings, paidBookings
         } else if (paidBookings == "false") {
             paid = false;
         }
-
-        if (paid === null) {
-            //obtain paid and not paid
-
-        } else {
-            if (onlyActive) {
-                // getActiveBookings
-            } else {
-                // getAllBookings
-            }
-        }
-
         databaseSevice.getBookings(fromDay, toDay).then((bookings) => {
             if (paid !== null) {
                 bookings = bookings.filter((booking) => {
-                    console.log(booking.paid);
-                    if (booking.paid === paid) {
+                    if (booking.paid == paid) {
                         return booking;
                     }
                 });
@@ -51,7 +37,7 @@ function getBookings(fromDay, toDay, courtName, onlyActiveBookings, paidBookings
                     }
                 })
             }
-
+        
             if (allCourts === false) {
                 bookings = bookings.filter((booking) => {
                     if (booking["court.name"] === courtName) {
@@ -62,7 +48,6 @@ function getBookings(fromDay, toDay, courtName, onlyActiveBookings, paidBookings
 
             return resolve(bookings);
         }).catch((err) => {
-            console.log(err);
             return reject(err);
         });
     });
@@ -78,7 +63,34 @@ function getCourts() {
     });
 }
 
+
+function handlePaid(bookingId, isPaid) {
+    return new Promise((resolve, reject) => {
+        var paid = false;
+        if (isPaid === "true") {
+            paid = true;
+        }
+        databaseSevice.updateBookingIsPaid(bookingId, paid).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        });
+    });
+}
+
+function deleteBooking(bookingId) {
+    return new Promise((resolve, reject) => {
+        databaseSevice.deleteBooking(bookingId).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        });
+    });
+}
+
 module.exports = {
     getBookings,
     getCourts,
+    handlePaid,
+    deleteBooking,
 }

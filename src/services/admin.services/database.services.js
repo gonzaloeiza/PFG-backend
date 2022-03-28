@@ -133,11 +133,17 @@ function getCourts() {
 function getBookings(fromDay, toDay) {
     return new Promise((resolve, reject) => {
         models.Booking.findAll({
-            include: {
-                model: models.Court,
-                as: "court",
-                required: true
-            },
+            include: [
+                {
+                    model: models.Court,
+                    as: "court",
+                    required: true
+                }, {
+                    model: models.User,
+                    as: "user",
+                    required: true
+                },
+            ],
             where: {
                 [Op.and]: [
                     {day: {
@@ -146,11 +152,49 @@ function getBookings(fromDay, toDay) {
                     {day: {
                         [Op.lte]: toDay
                     }},
-                ]
+                ],
             },
+            order: [['day', 'desc'], ['startTime', 'desc']],
             raw: true
         }).then((bookings) => {
             return resolve(bookings);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+
+function updateBookingIsPaid(bookingId, isPaid) {
+    return new Promise((resolve, reject) => {
+        models.Booking.update({
+            paid: isPaid
+        }, {
+          where: {id: bookingId},
+          raw: true
+        }).then((data) => {
+            if (data[0] > 0) {
+                return resolve("Se ha actualizado el campo pagado de la reserva");
+            } else {
+                return reject(databaseError);
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+
+function deleteBooking(bookingId) {
+    return new Promise((resolve, reject) => {
+        models.Booking.destroy({
+            where: {id: bookingId}
+        }).then((data) => {
+            if (data === 1) {
+                return resolve("Se ha anulado la pista con éxito");
+            } else {
+                return reject(databaseError);
+            }
         }).catch(() => {
             return reject(databaseError);
         });
@@ -165,4 +209,6 @@ module.exports = {
     rejectUser,
     getCourts,
     getBookings,
+    updateBookingIsPaid,
+    deleteBooking,
 }

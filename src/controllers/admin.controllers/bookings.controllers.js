@@ -21,7 +21,28 @@ function getCourts(req, res, next) {
     });
 }
 
+function handlePaid(req, res, next) {
+    const bookingId = req.body.bookingId;
+    const isPaid = req.body.isPaid;
+    bookingsService.handlePaid(bookingId, isPaid).then((data) => {
+        return res.status(200).send({message: data});
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
+function deleteBooking(req, res, next) {
+    const bookingId = req.body.bookingId;
+    bookingsService.deleteBooking(bookingId).then((data) => {
+        return res.status(200).send({message: data});
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
 module.exports = {
     getBookings,
     getCourts,
+    handlePaid,
+    deleteBooking,
 } 
