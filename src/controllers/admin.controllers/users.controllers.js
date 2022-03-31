@@ -26,8 +26,17 @@ function rejectUser(req, res, next) {
     });
 }
 
+function getAllUsers(req, res, next) {
+    usersService.getAllUsers().then((data) => {
+        return res.status(200).send({message: data});
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
 module.exports = {
     getPendingUsers,
     acceptUser,
     rejectUser,
+    getAllUsers,
 }

@@ -32,8 +32,19 @@ function rejectUser(userId) {
     });
 }
 
+function getAllUsers() {
+    return new Promise((resolve, reject) => {
+        databaseService.getAllUsers().then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        }); 
+    });
+}
+
 module.exports = {
     getPendingUsers,
     acceptUser,
     rejectUser,
+    getAllUsers,
 }

@@ -24,7 +24,7 @@ arrayOfInsertions.push(() => {
     return models.User.create({
         email: "eizaguirregonzalo@gmail.com",
         dni: "78995380v",
-        phoneNumber: "+34658223752",
+        phoneNumber: "34658223752",
         name: "Gonzalo",
         firstSurname: "Eizaguirre",
         secondSurname: " Berasategui",
@@ -39,7 +39,7 @@ arrayOfInsertions.push(() => {
     return models.User.create({
         email: "goneizaguirre@gmail.com",
         dni: "78995380v",
-        phoneNumber: "+34658223752",
+        phoneNumber: "34658223752",
         name: "Gonzalo",
         firstSurname: "Eizaguirre",
         secondSurname: " Berasategui",
@@ -54,7 +54,7 @@ arrayOfInsertions.push(() => {
     return models.User.create({
         email: "gonzaloeizaguirre@opendeusto.es",
         dni: "78995380v",
-        phoneNumber: "+34658223752",
+        phoneNumber: "34658223752",
         name: "Gonzalo",
         firstSurname: "Eizaguirre",
         secondSurname: " Berasategui",

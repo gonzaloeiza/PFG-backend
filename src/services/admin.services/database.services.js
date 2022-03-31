@@ -202,6 +202,20 @@ function deleteBooking(bookingId) {
 }
 
 
+function getAllUsers() {
+    return new Promise((resolve, reject) => {
+        models.User.findAll({
+            attributes: {exclude: ["passwordHash", "createdAt"]},
+            order: [["name", "DESC"], ["firstSurname", "DESC"], ["secondSurname", "DESC"]],
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     signin,
     getPendingUsers,
@@ -211,4 +225,5 @@ module.exports = {
     getBookings,
     updateBookingIsPaid,
     deleteBooking,
+    getAllUsers,
 }
