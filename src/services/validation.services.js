@@ -204,34 +204,36 @@ function validateDisponibilityDate(date, courtName) {
     return new Promise((resolve, reject) => {
         const dateRE = /^\d{4}-\d{1,2}-\d{1,2}$/;
         if (dateRE.test(date)) {
-            const day = new Date(date);
+            var day = new Date(date);
             const dayNumber = day.getTime();
             if (!dayNumber && dayNumber !== 0) {
                 return reject("Fecha inválida");
             } else {
                 if (day.toISOString().slice(0, 10) === date) {
-                    const today = new Date();
-                    if (day.getFullYear() >= today.getFullYear()) {
-                        if (day.getMonth() >= today.getMonth()) {
-                            if (day.getDate() >= today.getDate()) {
-                                databaseService.getCourtData(courtName).then((courtData) => {
-                                    const d = new Date(today.getTime() + courtData.numberOfDaysToBookBefore*24*60*60*1000);
-                                    if (day <= d) {
-                                        return resolve();
-                                    }                                 
-                                    return reject(`No se puede reservar con más de ${courtData.numberOfDaysToBookBefore} dias de antelación`);
-                                }).catch((err) => {
-                                    reject(err);
-                                });
+                    var today = moment();
+                    day = moment(day);
+                    today.set("hour", 0);
+                    today.set("minute", 0);
+                    today.set("second", 0);
+                    today.set("millisecond", 0);
+                    day.set("hour", 0);
+                    day.set("minute", 0);
+                    day.set("second", 0);
+                    day.set("millisecond", 0);
+                    
+                   if (day < today) {
+                    return reject("Fecha pasada");
+                   } else {
+                        databaseService.getCourtData(courtName).then((courtData) => {
+                            if (today.clone().add(courtData.numberOfDaysToBookBefore, "days") >= day) {
+                                return resolve();
                             } else {
-                                return reject("Fecha pasada");
+                                return reject(`No se puede reservar con más de ${courtData.numberOfDaysToBookBefore} dias de antelación`);
                             }
-                        } else {
-                            return reject("Fecha pasada");
-                        }
-                    } else {
-                        return reject("Fecha pasada");
-                    }
+                        }).catch((err) => {
+                            return reject(err);
+                        });
+                   }
                 } else {
                     return reject("Fecha inválida");
                 }
@@ -335,7 +337,7 @@ function validateBookingIdIsInteger(bookingId) {
 function validateBookingCancelation(userId, bookingId) {
     return new Promise((resolve, reject) => {
         databaseService.getBookingData(userId, bookingId).then((data) => {
-            const bookingDate = moment(data.day + " " + data.startTime, "YYYY-MM-DD HH:mm:SS");
+            const bookingDate = moment(data.day + " " + data.startTime, "YYYY-MM-DD HH:mm:ss");
             if (moment().add(data["court.numberOfHoursToCancelCourt"], "hours") < bookingDate) {
                 return resolve();
             } else {
