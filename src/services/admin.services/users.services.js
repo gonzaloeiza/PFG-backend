@@ -42,9 +42,16 @@ function getAllUsers() {
     });
 }
 
+function getUserData(userId) {
+    return new Promise((resolve, reject) => {
+        return resolve(userId);
+    });
+}
+
 module.exports = {
     getPendingUsers,
     acceptUser,
     rejectUser,
     getAllUsers,
+    getUserData,
 }

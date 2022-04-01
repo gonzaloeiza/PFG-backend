@@ -34,9 +34,19 @@ function getAllUsers(req, res, next) {
     });
 }
 
+function getUserData(req, res, next) {
+    const userId = Number(req.params.userId);
+    usersService.getUserData(userId).then((data) => {
+        return res.status(200).send({message: data});
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
 module.exports = {
     getPendingUsers,
     acceptUser,
     rejectUser,
     getAllUsers,
+    getUserData,
 }
