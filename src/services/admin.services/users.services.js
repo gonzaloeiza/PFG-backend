@@ -44,7 +44,16 @@ function getAllUsers() {
 
 function getUserData(userId) {
     return new Promise((resolve, reject) => {
-        return resolve(userId);
+        const promises = [
+            databaseService.getUserData(userId),
+            databaseService.getUserBookings(userId)
+        ];
+
+        Promise.all(promises).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        });
     });
 }
 

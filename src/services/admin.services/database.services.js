@@ -216,6 +216,52 @@ function getAllUsers() {
     });
 }
 
+function getUserData(userId) {
+    return new Promise((resolve, reject) => {
+        models.User.findOne({
+            where: {id: userId},
+            raw: true,
+            attributes: {exclude: ["passwordHash", "createdAt", "updatedAt"]}
+        }).then((data) => {
+            if (data) {
+                return resolve(data);
+            } else {
+                return reject(databaseError);
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function getUserBookings(userId) {
+    return new Promise((resolve, reject) => {
+        models.Booking.findAll({
+            include: [
+                {
+                    model: models.Court,
+                    as: "court",
+                    required: true,
+                    attributes:{exclude: ["opensAt", "closesAt", "numberOfDaysToBookBefore", "numberOfHoursToCancelCourt", "createdAt", "updatedAt"]}
+                }, {
+                    model: models.User,
+                    as: "user",
+                    required: true,
+                    attributes:[],
+                    where: {id: userId}
+                },    
+            ],
+            attributes: {exclude: ["userId", "courtId", "createdAt", "updatedAt"]},
+            order: [['day', 'desc'], ['startTime', 'desc']],
+            raw: true,
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     signin,
     getPendingUsers,
@@ -226,4 +272,6 @@ module.exports = {
     updateBookingIsPaid,
     deleteBooking,
     getAllUsers,
+    getUserData,
+    getUserBookings,
 }
