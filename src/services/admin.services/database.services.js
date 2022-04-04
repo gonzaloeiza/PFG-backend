@@ -164,7 +164,10 @@ function getBookings(fromDay, toDay) {
     });
 }
 
-
+/**
+ * 
+ * @return {} 
+ */
 function updateBookingIsPaid(bookingId, isPaid) {
     return new Promise((resolve, reject) => {
         models.Booking.update({
@@ -184,7 +187,10 @@ function updateBookingIsPaid(bookingId, isPaid) {
     });
 }
 
-
+/**
+ * 
+ * @return {} 
+ */
 function deleteBooking(bookingId) {
     return new Promise((resolve, reject) => {
         models.Booking.destroy({
@@ -201,7 +207,10 @@ function deleteBooking(bookingId) {
     });
 }
 
-
+/**
+ * 
+ * @return {} 
+ */
 function getAllUsers() {
     return new Promise((resolve, reject) => {
         models.User.findAll({
@@ -216,6 +225,10 @@ function getAllUsers() {
     });
 }
 
+/**
+ * 
+ * @return {} 
+ */
 function getUserData(userId) {
     return new Promise((resolve, reject) => {
         models.User.findOne({
@@ -234,6 +247,10 @@ function getUserData(userId) {
     });
 }
 
+/**
+ * 
+ * @return {} 
+ */
 function getUserBookings(userId) {
     return new Promise((resolve, reject) => {
         models.Booking.findAll({
@@ -262,6 +279,43 @@ function getUserBookings(userId) {
     });
 }
 
+/**
+ * 
+ * @return {} 
+ */
+function updateUserProfile(userId, userData) {
+    console.log(userData);
+    return new Promise((resolve, reject) => {
+        models.User.update(userData,
+            {
+                where: {id: userId}
+            }).then((data) => {
+                console.log(data);
+                return resolve();
+            }).catch((err) => {
+                console.log(err);
+                return reject(databaseError);
+            });
+        });
+}
+
+
+function deleteUser(userId) {
+    return new Promise((resolve, reject) => {
+        models.User.destroy({
+            where: {id: userId}
+        }).then((data) => {
+            if (data === 1) {
+                return resolve("Se ha eliminado al usuario correctamente");
+            } else {
+                return reject(databaseError);
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     signin,
     getPendingUsers,
@@ -274,4 +328,6 @@ module.exports = {
     getAllUsers,
     getUserData,
     getUserBookings,
+    updateUserProfile,
+    deleteUser,
 }

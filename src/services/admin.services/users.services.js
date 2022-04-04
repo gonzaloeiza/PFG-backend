@@ -57,10 +57,32 @@ function getUserData(userId) {
     });
 }
 
+function updateProfile(userId, userData) {
+    return new Promise((resolve, reject) => {
+        databaseService.updateUserProfile(userId, userData).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        });        
+    });
+}
+
+function deleteUser(userId) {
+    return new Promise((resolve, reject) => {
+        databaseService.deleteUser(userId).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        });
+    });
+}
+
 module.exports = {
     getPendingUsers,
     acceptUser,
     rejectUser,
     getAllUsers,
     getUserData,
+    updateProfile,
+    deleteUser,
 }
