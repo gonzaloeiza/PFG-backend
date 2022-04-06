@@ -289,17 +289,19 @@ function updateUserProfile(userId, userData) {
         models.User.update(userData,
             {
                 where: {id: userId}
-            }).then((data) => {
-                console.log(data);
-                return resolve();
-            }).catch((err) => {
-                console.log(err);
+            }).then(() => {
+                return resolve("Se ha actualizado el perfil correctamente");
+            }).catch(() => {
                 return reject(databaseError);
             });
         });
 }
 
 
+/**
+ * 
+ * @return {} 
+ */
 function deleteUser(userId) {
     return new Promise((resolve, reject) => {
         models.User.destroy({
@@ -307,6 +309,43 @@ function deleteUser(userId) {
         }).then((data) => {
             if (data === 1) {
                 return resolve("Se ha eliminado al usuario correctamente");
+            } else {
+                return reject(databaseError);
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+/**
+ * 
+ * @return {} 
+ */
+function updateCourtData(courtId, courtData) {
+    return new Promise((resolve, reject) => {
+        models.Court.update(courtData,
+            {
+                where: {id: courtId}
+            }).then(() => {
+                return resolve("Se ha actualizado la información de la pista correctamente");
+            }).catch(() => {
+                return reject(databaseError);
+            });
+    });
+}
+
+/**
+ * 
+ * @return {} 
+ */
+ function deleteCourt(courtId) {
+    return new Promise((resolve, reject) => {
+        models.Court.destroy({
+            where: {id: courtId}
+        }).then((data) => {
+            if (data === 1) {
+                return resolve("Se ha eliminado la pista correctamente");
             } else {
                 return reject(databaseError);
             }
@@ -330,4 +369,6 @@ module.exports = {
     getUserBookings,
     updateUserProfile,
     deleteUser,
+    updateCourtData,
+    deleteCourt,
 }
