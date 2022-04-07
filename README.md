@@ -1,4 +1,6 @@
 # PFG-backend
+[![npm version](https://img.shields.io/npm/v/if-node-version.svg)](https://www.npmjs.com/package/if-node-version)
+
 
 El primer paso es instalar las dependencias necesarias para poder correr el proyecto:
 
