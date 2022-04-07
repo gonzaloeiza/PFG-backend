@@ -1,6 +1,7 @@
 # PFG-backend
 ![node version](https://img.shields.io/badge/node-v16.14.0-green)
 ![npm](https://img.shields.io/badge/npm-v8.5.4-green)
+![mysql](https://img.shields.io/badge/mysql-5.5-blue)
 
 El primer paso es instalar las dependencias necesarias para poder correr el proyecto:
 
