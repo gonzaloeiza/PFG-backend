@@ -355,6 +355,22 @@ function updateCourtData(courtId, courtData) {
     });
 }
 
+
+/**
+ * 
+ * @return {} 
+ */
+function createCourt(courtData) {
+    return new Promise((resolve, reject) => {
+        models.Court.create(courtData)
+        .then((data) => {
+            return resolve("Se ha creado la pista correctamente");
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     signin,
     getPendingUsers,
@@ -371,4 +387,5 @@ module.exports = {
     deleteUser,
     updateCourtData,
     deleteCourt,
+    createCourt,
 }

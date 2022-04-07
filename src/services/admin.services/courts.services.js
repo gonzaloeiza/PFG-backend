@@ -20,7 +20,18 @@ function deleteCourt(courtId) {
     });
 }
 
+function createNewCourt(courtData) {
+    return new Promise((resolve, reject) => {
+        databaseSevice.createCourt(courtData).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        });
+    });
+}
+
 module.exports = {
     updateCourtData,
     deleteCourt,
+    createNewCourt,
 }
