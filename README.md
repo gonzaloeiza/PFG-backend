@@ -16,7 +16,7 @@ GRANT ALL ON padelDB.* TO 'deployer'@'localhost';
 
 El siguiente comando añade ejemplos a la base de datos y crea la cuenta de administrador por defecto:
 ```
-
+npm run insertExamplesDB
 ```
 Las credenciales para la cuenta de administrador son:
 
