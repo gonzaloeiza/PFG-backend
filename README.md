@@ -1,5 +1,5 @@
 # PFG-backend
-[![npm version](https://badges.aleen42.com/src/node.svg)
+![npm version](https://badges.aleen42.com/src/node.svg)
 
 
 El primer paso es instalar las dependencias necesarias para poder correr el proyecto:
