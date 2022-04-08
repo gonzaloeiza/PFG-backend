@@ -5,6 +5,7 @@ function updateCourtData(req, res, next) {
     var courtData = {};
     courtData.name = req.body.name;
     courtData.description = req.body.description;
+    courtData.smartCitizenId = req.body.smartCitizenId;
     courtData.bookReservationTime = Number(req.body.bookReservationTime);
     courtData.priceWithoutLight = Number(req.body.priceWithoutLight);
     courtData.priceWithLight = Number(req.body.priceWithLight);

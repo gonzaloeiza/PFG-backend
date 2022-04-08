@@ -4,6 +4,7 @@ const databaseService = require("./database.services");
 const emailService = require("./email.service");
 const validationService = require("./validation.services");
 const bookingService = require("./booking.services");
+const courtsService = require("./courts.services");
 const adminService = require("./admin.services");
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
     emailService,
     validationService,
     bookingService,
+    courtsService,
     adminService,
 }

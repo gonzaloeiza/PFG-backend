@@ -349,6 +349,22 @@ function validateBookingCancelation(userId, bookingId) {
     });
 }
 
+
+function validateCourtId(courtId) {
+    return new Promise((resolve, reject) => {
+        const i = Number(courtId);
+        if (Number.isInteger(i)) {
+            databaseService.courtExists(courtId).then(() => {
+                return resolve();
+            }).catch((err) => {
+                return reject(err);
+            });
+        } else {
+            reject("El identificador de la pista es incorrecto");
+        }
+    });
+}
+
 module.exports = {
     validateDNI,
     validateName,
@@ -373,4 +389,5 @@ module.exports = {
     validateDateOnly,
     validateBookingIdIsInteger,
     validateBookingCancelation,
+    validateCourtId,
 }

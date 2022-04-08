@@ -20,6 +20,7 @@ class Court extends Model {}
         },
         smartCitizenId: {
             type: DataTypes.STRING,
+            defaultValue: ""
         },
         bookReservationTime: {  //if you book a court, for how long can you play 
             type: DataTypes.INTEGER,

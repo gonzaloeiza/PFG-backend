@@ -85,10 +85,18 @@ function validateCancelation(req, res, next) {
     Promise.all(promises).then(() => {
         return next();
     }).catch((err) => {
-        console.log(err);
         res.status(400).send({message: err});
     });
 }
+
+function validateCourt(req, res, next) {
+    validationService.validateCourtId(req.params.courtId).then(() => {
+        return next();
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
 
 module.exports = {
     validateSignup,
@@ -97,4 +105,5 @@ module.exports = {
     validateBooking,
     validateGetBookings,
     validateCancelation,
+    validateCourt,
 }

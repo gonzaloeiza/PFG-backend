@@ -350,6 +350,41 @@ function userExists(userId) {
     });
 }
 
+function courtExists(courtId) {
+    return new Promise((resolve, reject) => {
+        models.Court.findOne({
+            where: {id: courtId},
+            attributes: ["id"],
+            raw:true
+        }).then((data) => {
+            if (data) {
+                return resolve();
+            } else {
+                return reject(`No existe la pista con id ${courtId}`);
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function getCourtDataById(courtId) {
+    return new Promise((resolve, reject) => {
+        models.Court.findOne({
+            where: {id: courtId},
+            raw: true,
+            attributes: {exclude: ["createdAt"]}
+        }).then((data) => {
+            if (data) {
+                return resolve(data);
+            } else {
+                return reject(`No existe la pista con id ${courtId}`);
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
 
 module.exports = {
     emailExists,
@@ -365,4 +400,6 @@ module.exports = {
     getBookingData,
     cancelBooking,
     userExists,
+    courtExists,
+    getCourtDataById,
 }
