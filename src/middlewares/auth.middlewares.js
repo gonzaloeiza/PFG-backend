@@ -1,5 +1,6 @@
 const jwtSecret = process.env.JWT_SECRET
 const jwt = require("jsonwebtoken");
+const { userExists } = require("../services/database.services");
 
 function verifyToken(req, res, next) {
     const token = req.headers["x-access-token"];
@@ -14,8 +15,13 @@ function verifyToken(req, res, next) {
         return res.status(401).send(
             {message: "No estás autorizado"});
     }
-    req.userId = decoded.id;
-    next();
+
+    userExists(decoded.id).then(() => {
+        req.userId = decoded.id;
+        next();
+    }).catch(() => {
+        return res.status(401).send({message: "No estás autorizado"});
+    });
   });
 }
 

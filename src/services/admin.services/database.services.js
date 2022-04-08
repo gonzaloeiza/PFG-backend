@@ -371,6 +371,45 @@ function createCourt(courtData) {
     });
 }
 
+
+/**
+ * 
+ * @return {} 
+ */
+ function updateAdminPassword(adminId, newPassword) {
+    return new Promise((resolve, reject) => {
+        models.Admin.update(
+            {
+                passwordHash: newPassword
+            },
+            {
+                where: {id: adminId}
+            }).then(() => {
+                return resolve("La contraseña se ha cambiado correctamente");
+            }).catch(() => {
+                return reject(databaseError);
+            });
+    });
+ }
+
+ function adminExists(adminId) {
+    return new Promise((resolve, reject) => {
+        models.Admin.findOne({
+            where: {id: adminId},
+            attributes: ["email"],
+            raw: true
+        }).then((data) => {
+            if (data) {
+                return resolve();
+            } else {
+                return reject();
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+ }
+
 module.exports = {
     signin,
     getPendingUsers,
@@ -388,4 +427,6 @@ module.exports = {
     updateCourtData,
     deleteCourt,
     createCourt,
+    updateAdminPassword,
+    adminExists,
 }

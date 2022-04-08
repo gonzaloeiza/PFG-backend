@@ -332,6 +332,24 @@ function cancelBooking(userId, bookingId) {
     });
 }
 
+function userExists(userId) {
+    return new Promise((resolve, reject) => {
+        models.User.findOne({
+            where: {id: userId},
+            attributes: ["email"],
+            raw: true
+        }).then((data) => {
+            if (data) {
+                return resolve();
+            } else {
+                return reject();
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
 
 module.exports = {
     emailExists,
@@ -346,4 +364,5 @@ module.exports = {
     getAllBookings,
     getBookingData,
     cancelBooking,
+    userExists,
 }

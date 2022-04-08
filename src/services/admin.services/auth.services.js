@@ -10,7 +10,17 @@ function signin(email, password) {
     });
 }
 
+function updatePassword(adminId, newPassword) {
+    return new Promise((resolve, reject) => {
+        databaseService.updateAdminPassword(adminId, newPassword).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        });
+    });
+}
 
 module.exports = {
     signin,
+    updatePassword,
 }

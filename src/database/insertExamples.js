@@ -11,13 +11,6 @@ arrayOfInsertions.push(() => {
     });
 });
 
-arrayOfInsertions.push(() => {
-    return models.Admin.create({
-        email: "admin2@gmail.com",
-        passwordHash: bcrypt.hashSync("12345678", 8)
-    });
-});
-
 
 //Users
 arrayOfInsertions.push(() => {
