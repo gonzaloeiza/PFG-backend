@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes } = require("sequelize");
+const { Sequelize, Model, DataTypes, STRING } = require("sequelize");
 const sequelize = require("../db");
 
 
@@ -17,6 +17,9 @@ class Court extends Model {}
         description: {
             type: DataTypes.STRING,
             defaultValue: ""
+        },
+        smartCitizenId: {
+            type: DataTypes.STRING,
         },
         bookReservationTime: {  //if you book a court, for how long can you play 
             type: DataTypes.INTEGER,
