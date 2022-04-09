@@ -3,12 +3,13 @@ const sidePlayingOptions = ["DERECHA", "REVES", "INDIFERENTE"];
 const rankingTypes = ["MASCULINO", "FEMENINO", "MIXTO"];
 
 
-const smartCitizenDeviceURL = "https://api.smartcitizen.me/v0/devices";
-
+const APISmartCitizenDeviceURL = "https://api.smartcitizen.me/v0/devices";
+const smartCitizenDevicePageURL = "https://smartcitizen.me/kits"
 
 module.exports =  {
     genderOptions,
     sidePlayingOptions,
     rankingTypes,
-    smartCitizenDeviceURL,
+    APISmartCitizenDeviceURL,
+    smartCitizenDevicePageURL,
 }
