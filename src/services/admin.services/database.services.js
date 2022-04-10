@@ -115,6 +115,7 @@ function rejectUser(userId) {
 function getCourts() {
     return new Promise((resolve, reject) => {
         models.Court.findAll({
+            attributes: {exclude: ["createdAt"]},
             raw:true
         }).then((data) => {
             return resolve(data);     

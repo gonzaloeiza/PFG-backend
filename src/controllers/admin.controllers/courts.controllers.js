@@ -1,5 +1,13 @@
 const { courtsService } = require("../../services/admin.services");
 
+function getCourtsData(req, res, next) {
+    courtsService.getCourtsData().then((data) => {
+        return res.status(200).send({message: data});
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
 function updateCourtData(req, res, next) {
     const courtId = Number(req.body.id);
     var courtData = {};
@@ -51,6 +59,7 @@ function updatePicture(req, res, next) {
 }
 
 module.exports = {
+    getCourtsData,
     updateCourtData,
     deleteCourt,
     createNewCourt,
