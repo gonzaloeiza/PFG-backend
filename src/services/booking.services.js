@@ -58,7 +58,6 @@ function book(userId, courtName, bookingDate, withLight) {
             databaseService.bookCourt(userId, courtData.id, courtData.bookReservationTime, date, light, amountToPay).then((data) => {
                 return resolve(data);
             }).catch((err) => {
-                console.log(err)
                 return reject(err);
             });    
         }).catch((err) => {

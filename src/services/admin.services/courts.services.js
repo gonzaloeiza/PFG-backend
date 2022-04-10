@@ -30,8 +30,19 @@ function createNewCourt(courtData) {
     });
 }
 
+function updateCourtPicture(courtName, courtData) {
+    return new Promise((resolve, reject) => {
+        databaseSevice.updateCourtPicture(courtName, courtData).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        });
+    });
+}
+
 module.exports = {
     updateCourtData,
     deleteCourt,
     createNewCourt,
+    updateCourtPicture,
 }

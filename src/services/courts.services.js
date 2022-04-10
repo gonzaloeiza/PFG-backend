@@ -8,7 +8,6 @@ function getCourtData(courtId) {
             const smartCitizenId = data.smartCitizenId;
             if (smartCitizenId != "") {
                 const url = `${APISmartCitizenDeviceURL}/${smartCitizenId}`;
-                console.log(url);
                 axios.get(url).then((response) => {
                     var sensors = response.data.data.sensors;
                     sensors = sensors.reduce((newList, sensor) => {

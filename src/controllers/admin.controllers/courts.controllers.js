@@ -14,7 +14,6 @@ function updateCourtData(req, res, next) {
     courtData.opensAt = req.body.opensAt;
     courtData.closesAt = req.body.closesAt;
 
-
     courtsService.updateCourtData(courtId, courtData).then((data) => {
         return res.status(200).send({message: data});
     }).catch((err) => {
@@ -33,8 +32,18 @@ function deleteCourt(req, res, next) {
 
 function createNewCourt(req, res, next) {
     const courtData = req.body;
-    console.log(courtData);
     courtsService.createNewCourt(courtData).then((data) => {
+        return res.status(200).send({message: data});
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
+function updatePicture(req, res, next) {
+    const courtName = req.params.courtName;
+    var courtData = {};
+    courtData.picture = req.file.filename;
+    courtsService.updateCourtPicture(courtName, courtData).then((data) => {
         return res.status(200).send({message: data});
     }).catch((err) => {
         return res.status(400).send({message: err});
@@ -45,4 +54,5 @@ module.exports = {
     updateCourtData,
     deleteCourt,
     createNewCourt,
+    updatePicture,
 }

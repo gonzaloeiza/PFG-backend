@@ -37,7 +37,6 @@ function signin(email, password) {
                 return reject("email/contraseña incorrecta.");
             }         
         }).catch((err) => {
-            console.log(err);
             return reject(databaseError);
         });
     });
@@ -284,7 +283,6 @@ function getUserBookings(userId) {
  * @return {} 
  */
 function updateUserProfile(userId, userData) {
-    console.log(userData);
     return new Promise((resolve, reject) => {
         models.User.update(userData,
             {
@@ -410,6 +408,20 @@ function createCourt(courtData) {
     });
  }
 
+
+function updateCourtPicture(courtName, courtData) {
+    return new Promise((resolve, reject) => {
+        models.Court.update(courtData,
+            {
+                where: {name: courtName}
+            }).then(() => {
+                return resolve("Se ha actualizado la imagen de la pista correctamente");
+            }).catch(() => {
+                return reject(databaseError);
+            });
+    });
+}
+
 module.exports = {
     signin,
     getPendingUsers,
@@ -429,4 +441,5 @@ module.exports = {
     createCourt,
     updateAdminPassword,
     adminExists,
+    updateCourtPicture,
 }

@@ -235,7 +235,6 @@ function getActiveBookings(userId, fromDay, toDay) {
         }).then((data) => {
             return resolve(data);
         }).catch((err) => {
-            console.log(err);
             return reject(databaseError);
         });
     });
@@ -270,8 +269,7 @@ function getActiveBookings(userId, fromDay, toDay) {
             raw: true
         }).then((data) => {
             return resolve(data);
-        }).catch((err) => {
-            console.log(err);
+        }).catch(() => {
             return reject(databaseError);
         });
     });

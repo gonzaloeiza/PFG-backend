@@ -71,7 +71,6 @@ function validateGetBookings(req, res, next) {
     Promise.all(promises).then(() => {
         return next();
     }).catch((err) => {
-        console.log(err);
         res.status(400).send({message: err});
     });
 }

@@ -11,7 +11,7 @@ app.use(cors({ 'Access-Control-Allow-Origin': '*' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api", routes);
-
+app.use(express.static('public'))
 //app get requests
 app.get('/', (req, res) => res.send('Server alive!'));
 

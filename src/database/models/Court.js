@@ -18,6 +18,9 @@ class Court extends Model {}
             type: DataTypes.STRING,
             defaultValue: ""
         },
+        picture: {
+            type: DataTypes.STRING,
+        },
         smartCitizenId: {
             type: DataTypes.STRING,
             defaultValue: ""
