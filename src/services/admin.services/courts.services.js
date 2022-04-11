@@ -29,7 +29,7 @@ function fetchSmartCitizenDeviceData(court, url) {
         axios.get(url).then((response) => {
             var sensors = response.data.data.sensors;
             sensors = sensors.reduce((newList, sensor) => {
-                if (sensor.value !== null && sensor.name !== "Battery SCK") {
+                if (sensor.value !== null && sensor.name !== "Battery SCK" && sensor.name !== "AMS CCS811 - TVOC") {
                     newList.push({
                         name: sensor.name,
                         description: sensor.description,
@@ -44,7 +44,6 @@ function fetchSmartCitizenDeviceData(court, url) {
             court.sensors = sensors;
             return resolve(court);
         }).catch((err) => {
-            console.log(err);
             court.last_reading_at = null;
             court.sensors = null;
             return resolve(court);
