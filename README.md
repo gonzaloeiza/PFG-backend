@@ -19,9 +19,9 @@
 ***
 
 A list of technologies used within the project:
-* [Technologie name](https://example.com): Version 12.3 
-* [Technologie name](https://example.com): Version 2.34
-* [Library name](https://example.com): Version 1234
+* [node js](https://nodejs.org/): Version 16.14.0 
+* [npm](https://www.npmjs.com/): Version 8.5.4
+* [MYSQL](https://www.mysql.com/): Version 5.5
 
 <a name="instalation"></a>
 ### Instalation
