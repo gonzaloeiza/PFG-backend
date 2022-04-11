@@ -19,8 +19,8 @@
 ***
 
 A list of technologies used within the project:
-* [node js](https://nodejs.org/): Version 16.14.0 
-* [npm](https://www.npmjs.com/): Version 8.5.4
+* [NODE JS](https://nodejs.org/): Version 16.14.0 
+* [NPM](https://www.npmjs.com/): Version 8.5.4
 * [MYSQL](https://www.mysql.com/): Version 5.5
 
 <a name="instalation"></a>
