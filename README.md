@@ -3,13 +3,12 @@
 ![npm](https://img.shields.io/badge/npm-v8.5.4-green)
 ![mysql](https://img.shields.io/badge/mysql-5.5-blue)
 
+## Table of Contents
 1. [General Info](#general-info)
-
-
-3. [Technologies](#technologies)
-
-
-4. [Installation](#installation)
+2. [Technologies](#technologies)
+3. [Installation](#installation)
+4.[Collaboration](#collaboration)
+5. [FAQs](#faqs)
 
 El primer paso es instalar las dependencias necesarias para poder correr el proyecto:
 
@@ -44,8 +43,5 @@ Puedes comprobar que la conexión funciona correctamente dirigiéndote a: http:/
 
 Para ejecutar la aplicación FRONTEND, dirígete al repositorio y sigue sus instrucciones: https://github.com/gonzaloeiza/PFG-frontend
 
-4. [Collaboration](#collaboration)
 
-
-5. [FAQs](#faqs)
 
