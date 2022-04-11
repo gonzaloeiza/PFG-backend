@@ -10,13 +10,23 @@
 4. [Collaboration](#collaboration)
 5. [FAQs](#faqs)
 
-El primer paso es instalar las dependencias necesarias para poder correr el proyecto:
+<a name="general-info"></a>
+### General Info
+
+<a name="technologies"></a>
+### Technologies
+
+<a name="instalation"></a>
+### Instalation
+
+The first step to begin with the instalation is to install the necessary dependencies that are used:
 
 ```
 npm i
 ```
 
-En segundo lugar, es necesario crear la base de datos MYSQL 5.5 y usuario de la base de datos, asi como darle los permisos necesarios al usuario de la base de datos:
+The next step is to create the MYSQL database and the user that will be used, and give the user the correct permissions in order to interact with the database:
+
 ```
 DROP SCHEMA IF EXISTS padelDB;
 DROP USER IF EXISTS 'deployer'@'localhost';
@@ -24,24 +34,31 @@ CREATE SCHEMA padelDB; CREATE USER IF NOT EXISTS 'deployer'@'localhost' IDENTIFI
 GRANT ALL ON padelDB.* TO 'deployer'@'localhost';
 ```
 
-El siguiente comando añade ejemplos a la base de datos y crea la cuenta de administrador por defecto:
+Then, yo might want to insert some examples to the databse, which will also create the default administrator account:
+
 ```
 npm run insertExamplesDB
 ```
-Las credenciales para la cuenta de administrador son:
+
+The credentials to access as the administrator are:
 
 * email: admin@gmail.com
-* contraseña: 12345678
+* password: 12345678
 
-Por útlimo, iniciaremos la aplicación con el siguiente comando:
+You can now run the application with the next command:
 
 ```
 npm start
 ```
 
-Puedes comprobar que la conexión funciona correctamente dirigiéndote a: http://localhost:5000
+You cant test that the application runs correctly by accessing to: http://localhost:5000
 
-Para ejecutar la aplicación FRONTEND, dirígete al repositorio y sigue sus instrucciones: https://github.com/gonzaloeiza/PFG-frontend
+If you want to execute the FRONTEND appliaction, go to the [FRONTEND REPOSITORY](https://github.com/gonzaloeiza/PFG-frontend)  and follow the instructions.
 
 
+<a name="collarboration"></a>
+### Collaboration
+
+<a name="faqs"></a>
+### FAQs
 
