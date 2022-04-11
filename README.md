@@ -12,12 +12,15 @@
 
 <a name="general-info"></a>
 ### General Info
+***
 
 <a name="technologies"></a>
 ### Technologies
+***
 
 <a name="instalation"></a>
 ### Instalation
+***
 
 The first step to begin with the instalation is to install the necessary dependencies that are used:
 
@@ -58,7 +61,8 @@ If you want to execute the FRONTEND appliaction, go to the [FRONTEND REPOSITORY]
 
 <a name="collarboration"></a>
 ### Collaboration
+***
 
 <a name="faqs"></a>
 ### FAQs
-
+***
