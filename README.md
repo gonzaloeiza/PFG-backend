@@ -51,7 +51,7 @@ You can now run the application with the next command:
 npm start
 ```
 
-You cant test that the application runs correctly by accessing to: http://localhost:5000
+You cant test that the application runs correctly by accessing to: http://localhost:5000.
 
 If you want to execute the FRONTEND appliaction, go to the [FRONTEND REPOSITORY](https://github.com/gonzaloeiza/PFG-frontend)  and follow the instructions.
 
