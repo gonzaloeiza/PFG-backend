@@ -92,7 +92,7 @@ function signUp(userData) {
 function getCourts() {
     return new Promise((resolve, reject) => {
         models.Court.findAll({
-            attributes: {exclude: ["createdAt", "updatedAt"]},
+            attributes: {exclude: ["createdAt"]},
             raw: true
         }).then((data) => {
             return resolve(data);

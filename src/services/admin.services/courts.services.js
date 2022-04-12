@@ -1,16 +1,13 @@
-const databaseSevice = require("./database.services");
+const databaseService = require("./database.services");
 const { APISmartCitizenDeviceURL, smartCitizenDevicePageURL } = require("../../config");
 const axios = require("axios");
 
 function getCourtsData() {
     return new Promise((resolve, reject) => {
-        databaseSevice.getCourts().then((courts) => {
+        databaseService.getCourts().then((courts) => {
             var pendingPromises = [];
-            courts.forEach(court => {;
-                if (court.smartCitizenId.trim() !== "") {
-                    const url = `${APISmartCitizenDeviceURL}/${court.smartCitizenId}`;
-                    pendingPromises.push(fetchSmartCitizenDeviceData(court, url));
-                }
+            courts.forEach(court => {
+                pendingPromises.push(fetchSmartCitizenDeviceData(court));
             });
             Promise.all(pendingPromises).then((courts) => {
                 return resolve(courts);
@@ -24,36 +21,43 @@ function getCourtsData() {
 }
 
 
-function fetchSmartCitizenDeviceData(court, url) {
+function fetchSmartCitizenDeviceData(court) {
     return new Promise((resolve, reject) => {
-        axios.get(url).then((response) => {
-            var sensors = response.data.data.sensors;
-            sensors = sensors.reduce((newList, sensor) => {
-                if (sensor.value !== null && sensor.name !== "Battery SCK" && sensor.name !== "AMS CCS811 - TVOC") {
-                    newList.push({
-                        name: sensor.name,
-                        description: sensor.description,
-                        unit: sensor.unit,
-                        value: sensor.value,
-                    });
-                }
-                return newList;
-            }, []);
-            court.last_reading_at = response.data.last_reading_at;
-            court.smartCitizenURL = `${smartCitizenDevicePageURL}/${court.smartCitizenId}`
-            court.sensors = sensors;
-            return resolve(court);
-        }).catch((err) => {
+        const url = `${APISmartCitizenDeviceURL}/${court.smartCitizenId}`;
+        if (url.trim() !== "") {
+            axios.get(url).then((response) => {
+                var sensors = response.data.data.sensors;
+                sensors = sensors.reduce((newList, sensor) => {
+                    if (sensor.value !== null && sensor.name !== "Battery SCK" && sensor.name !== "AMS CCS811 - TVOC") {
+                        newList.push({
+                            name: sensor.name,
+                            description: sensor.description,
+                            unit: sensor.unit,
+                            value: sensor.value,
+                        });
+                    }
+                    return newList;
+                }, []);
+                court.last_reading_at = response.data.last_reading_at;
+                court.smartCitizenURL = `${smartCitizenDevicePageURL}/${court.smartCitizenId}`
+                court.sensors = sensors;
+                return resolve(court);
+            }).catch((err) => {
+                court.last_reading_at = null;
+                court.sensors = null;
+                return resolve(court);
+            });
+        } else {
             court.last_reading_at = null;
             court.sensors = null;
             return resolve(court);
-        });
+        }
     });
 }
 
 function updateCourtData(courtId, courtData) {
     return new Promise((resolve, reject) => {
-        databaseSevice.updateCourtData(courtId, courtData).then((data) => {
+        databaseService.updateCourtData(courtId, courtData).then((data) => {
             return resolve(data);
         }).catch((err) => {
             return reject(err);
@@ -63,7 +67,7 @@ function updateCourtData(courtId, courtData) {
 
 function deleteCourt(courtId) {
     return new Promise((resolve, reject) => {
-        databaseSevice.deleteCourt(courtId).then((data) => {
+        databaseService.deleteCourt(courtId).then((data) => {
             return resolve(data);
         }).catch((err) => {
             return reject(err);
@@ -73,7 +77,7 @@ function deleteCourt(courtId) {
 
 function createNewCourt(courtData) {
     return new Promise((resolve, reject) => {
-        databaseSevice.createCourt(courtData).then((data) => {
+        databaseService.createCourt(courtData).then((data) => {
             return resolve(data);
         }).catch((err) => {
             return reject(err);
@@ -83,7 +87,7 @@ function createNewCourt(courtData) {
 
 function updateCourtPicture(courtName, courtData) {
     return new Promise((resolve, reject) => {
-        databaseSevice.updateCourtPicture(courtName, courtData).then((data) => {
+        databaseService.updateCourtPicture(courtName, courtData).then((data) => {
             return resolve(data);
         }).catch((err) => {
             return reject(err);

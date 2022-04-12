@@ -2,41 +2,58 @@ const databaseService = require("./database.services");
 const { APISmartCitizenDeviceURL, smartCitizenDevicePageURL } = require("../config");
 const  axios = require("axios");
 
-function getCourtData(courtId) {
+function getCourtsData() {
     return new Promise((resolve, reject) => {
-        databaseService.getCourtDataById(courtId).then((data) => {
-            const smartCitizenId = data.smartCitizenId;
-            if (smartCitizenId != "") {
-                const url = `${APISmartCitizenDeviceURL}/${smartCitizenId}`;
-                axios.get(url).then((response) => {
-                    var sensors = response.data.data.sensors;
-                    sensors = sensors.reduce((newList, sensor) => {
-                        if (sensor.value !== null && sensor.name !== "Battery SCK") {
-                            newList.push({
-                                name: sensor.name,
-                                description: sensor.description,
-                                unit: sensor.unit,
-                                value: sensor.value,
-                            });
-                        }
-                        return newList;
-                    }, []);
-                    data.last_reading_at = response.data.last_reading_at;
-                    data.smartCitizenURL = `${smartCitizenDevicePageURL}/${smartCitizenId}`
-                    data.sensors = sensors;
-                    return resolve(data);
-                }).catch(() => {
-                    data.last_reading_at = null;
-                    data.sensors = null;
-                    return resolve(data);
-                });
-            }
+        databaseService.getCourts().then((courts) => {
+            var pendingPromises = [];
+            courts.forEach(court => {
+                pendingPromises.push(fetchSmartCitizenDeviceData(court));
+            });
+            Promise.all(pendingPromises).then((courts) => {
+                return resolve(courts);
             }).catch((err) => {
                 return reject(err);
             });
+        }).catch((err) => {
+            return reject(err);
         });
+    });
+}
+
+function fetchSmartCitizenDeviceData(court) {
+    return new Promise((resolve, reject) => {
+        const url = `${APISmartCitizenDeviceURL}/${court.smartCitizenId}`;
+        if (url.trim() !== "") {
+            axios.get(url).then((response) => {
+                var sensors = response.data.data.sensors;
+                sensors = sensors.reduce((newList, sensor) => {
+                    if (sensor.value !== null && sensor.name !== "Battery SCK" && sensor.name !== "AMS CCS811 - TVOC") {
+                        newList.push({
+                            name: sensor.name,
+                            description: sensor.description,
+                            unit: sensor.unit,
+                            value: sensor.value,
+                        });
+                    }
+                    return newList;
+                }, []);
+                court.last_reading_at = response.data.last_reading_at;
+                court.smartCitizenURL = `${smartCitizenDevicePageURL}/${court.smartCitizenId}`
+                court.sensors = sensors;
+                return resolve(court);
+            }).catch((err) => {
+                court.last_reading_at = null;
+                court.sensors = null;
+                return resolve(court);
+            });
+        } else {
+            court.last_reading_at = null;
+            court.sensors = null;
+            return resolve(court);
+        }
+    });
 }
 
 module.exports = {
-    getCourtData
+    getCourtsData
 }

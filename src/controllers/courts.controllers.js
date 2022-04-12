@@ -1,8 +1,7 @@
 const { courtsService } = require("../services");
 
-function getCourtData(req, res, next) {
-    const courtId = req.params.courtId;
-    courtsService.getCourtData(courtId).then((data) => {
+function getCourtsData(req, res, next) {
+    courtsService.getCourtsData().then((data) => {
         return res.status(200).send({message: data});
     }).catch((err) => {
         return res.status(400).send({message: err});
@@ -11,5 +10,5 @@ function getCourtData(req, res, next) {
 
 
 module.exports = {
-    getCourtData
+    getCourtsData
 }
