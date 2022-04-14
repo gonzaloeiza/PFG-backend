@@ -99,7 +99,7 @@ function validatePhoneNumber(phoneNumber) {
 function validateName(name) {
     return new Promise((resolve, reject) => {
         if (name.length >= 1) {
-            const nameRegex = /^[a-zA-Z]+$/;
+            const nameRegex = /^[a-zA-Z\s]+$/;
             if (nameRegex.test(name)) {
                 return resolve();
             } else {
@@ -115,7 +115,7 @@ function validateName(name) {
 function validateFirstSurname(firstSurname) {
     return new Promise((resolve, reject) => {
         if (firstSurname.length >= 1) {
-            const firstSurnameRegex = /^[a-zA-Z]+$/;
+            const firstSurnameRegex = /^[a-zA-Z\s]+$/;
             if (firstSurnameRegex.test(firstSurname)) {
                 return resolve();
             } else {

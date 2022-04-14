@@ -96,6 +96,22 @@ function validateCourt(req, res, next) {
     });
 }
 
+function verifyContactForm(req, res, next) {
+    const promises = [
+        validationService.validateName(req.body.name),
+        validationService.validateFirstSurname(req.body.surname),
+    ]
+
+    if (!validationService.validateEmailRegex(req.body.email)) {
+        return res.status(400).send({message: "Email no válido."});        
+    }
+
+    Promise.all(promises).then(() => {
+        return next();
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
 
 module.exports = {
     validateSignup,
@@ -105,4 +121,5 @@ module.exports = {
     validateGetBookings,
     validateCancelation,
     validateCourt,
+    verifyContactForm,
 }

@@ -384,6 +384,21 @@ function getCourtDataById(courtId) {
     });
 }
 
+function addContactForm(name, surname, email, message) {
+    return new Promise((resolve, reject) => {
+        models.ContactForm.create({
+            name: name,
+            surname: surname,
+            email: email,
+            message: message
+        }).then(() => {
+            return resolve("Formulario enviado correctamente");
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     emailExists,
     signIn,
@@ -400,4 +415,5 @@ module.exports = {
     userExists,
     courtExists,
     getCourtDataById,
+    addContactForm,
 }
