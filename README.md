@@ -37,8 +37,9 @@ The next step is to create the MYSQL database and the user that will be used, an
 
 ```
 DROP SCHEMA IF EXISTS padelDB;
+CREATE SCHEMA padelDB;
 DROP USER IF EXISTS 'deployer'@'localhost';
-CREATE SCHEMA padelDB; CREATE USER IF NOT EXISTS 'deployer'@'localhost' IDENTIFIED BY 'deployer';
+CREATE USER IF NOT EXISTS 'deployer'@'localhost' IDENTIFIED BY 'deployer';
 GRANT ALL ON padelDB.* TO 'deployer'@'localhost';
 ```
 
