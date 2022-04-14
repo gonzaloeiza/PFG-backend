@@ -42,6 +42,7 @@ DROP USER IF EXISTS 'deployer'@'localhost';
 CREATE USER IF NOT EXISTS 'deployer'@'localhost' IDENTIFIED BY 'deployer';
 GRANT ALL ON padelDB.* TO 'deployer'@'localhost';
 ```
+Before starting to run the scripts, you must configure an .env file. You have an example (/.env.example) on the source code with the required variables.
 
 Then, yo might want to insert some examples to the databse, which will also create the default administrator account:
 
