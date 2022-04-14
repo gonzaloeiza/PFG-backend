@@ -64,6 +64,9 @@ You cant test that the application runs correctly by accessing to: http://localh
 
 If you want to execute the FRONTEND appliaction, go to the [FRONTEND REPOSITORY](https://github.com/gonzaloeiza/PFG-frontend)  and follow the instructions.
 
+You can test everything works correctly by logging as an user with this credentials:
+* email: eizaguirregonzalo@gmail.com
+* password: 12345678
 
 <a name="collarboration"></a>
 ### Collaboration
