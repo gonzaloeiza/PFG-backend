@@ -37,7 +37,7 @@ arrayOfInsertions.push(() => {
         firstSurname: "Martinez",
         secondSurname: "",
         gender: "Hombre",
-        dateBirth: "2000-18-03",
+        dateBirth: "2000-04-03",
         passwordHash: bcrypt.hashSync("12345678", 8),
         pendingSignUp: 1
     });
@@ -48,6 +48,8 @@ arrayOfInsertions.push(() => {
 arrayOfInsertions.push(() => {
     return models.Court.create({
         name: "Pista DAM",
+        picture: "Pista DAM.png",
+        smartCitizenId: "15262",
         bookReservationTime: 90,
         priceWithoutLight: 35,
         priceWithLight: 40,
@@ -61,6 +63,8 @@ arrayOfInsertions.push(() => {
 arrayOfInsertions.push(() => {
     return models.Court.create({
         name: "Pista CUPRA",
+        picture: "Pista CUPRA.png",
+        smartCitizenId: "15262",
         bookReservationTime: 60,
         priceWithoutLight: 30,
         priceWithLight: 45,
