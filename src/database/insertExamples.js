@@ -30,33 +30,19 @@ arrayOfInsertions.push(() => {
 
 arrayOfInsertions.push(() => {
     return models.User.create({
-        email: "goneizaguirre@gmail.com",
-        dni: "78995380v",
-        phoneNumber: "34658223752",
-        name: "Gonzalo",
-        firstSurname: "Eizaguirre",
-        secondSurname: " Berasategui",
+        email: "pabloMartinez@gmail.com",
+        dni: "11111111v",
+        phoneNumber: "34666666666",
+        name: "Pablo",
+        firstSurname: "Martinez",
+        secondSurname: "",
         gender: "Hombre",
-        dateBirth: "2000-08-02",
+        dateBirth: "2000-18-03",
         passwordHash: bcrypt.hashSync("12345678", 8),
         pendingSignUp: 1
     });
 });
 
-arrayOfInsertions.push(() => {
-    return models.User.create({
-        email: "gonzaloeizaguirre@opendeusto.es",
-        dni: "78995380v",
-        phoneNumber: "34658223752",
-        name: "Gonzalo",
-        firstSurname: "Eizaguirre",
-        secondSurname: " Berasategui",
-        gender: "Hombre",
-        dateBirth: "2000-08-02",
-        passwordHash: bcrypt.hashSync("12345678", 8),
-        pendingSignUp: 1
-    });
-});
 
 //Courts
 arrayOfInsertions.push(() => {
@@ -80,7 +66,7 @@ arrayOfInsertions.push(() => {
         priceWithLight: 45,
         numberOfDaysToBookBefore: 2,
         numberOfHoursToCancelCourt: 4,
-        opensAt: "8:30",
+        opensAt: "9:30",
         closesAt: "21:30"
     });
 });
@@ -91,7 +77,7 @@ arrayOfInsertions.push(() => {
     return models.Booking.create({
         userId: 1,
         courtId: 1,
-        day: "2022-03-17",
+        day: "2022-04-17",
         startTime: "12:00",
         finishTime: "13:30",
         withLight: true,
@@ -115,7 +101,7 @@ arrayOfInsertions.push(() => {
     return models.Booking.create({
         userId: 1,
         courtId: 1,
-        day: "2022-03-17",
+        day: "2022-04-12",
         startTime: "16:30",
         finishTime: "18:00",
         withLight: true,
@@ -127,7 +113,7 @@ arrayOfInsertions.push(() => {
     return models.Booking.create({
         userId: 1,
         courtId: 2,
-        day: "2022-03-17",
+        day: "2022-03-02",
         startTime: "15:30",
         finishTime: "17:00",
         withLight: true,
@@ -139,62 +125,13 @@ arrayOfInsertions.push(() => {
     return models.Booking.create({
         userId: 1,
         courtId: 2,
-        day: "2022-03-17",
+        day: "2022-04-17",
         startTime: "17:30",
         finishTime: "18:30",
         withLight: true,
         amountToPay: 12.22
     });
 });
-
-
-// //Ranking
-// arrayOfInsertions.push(() => {
-//     return models.Ranking.create({
-//         name: "Ranking masculino",
-//         year: 2022,
-//         rankingType: "Masculino"
-//     });
-// });
-
-// arrayOfInsertions.push(() => {
-//     return models.Ranking.create({
-//         name: "Ranking femenino",
-//         year: 2022,
-//         rankingType: "Femenino"
-//     });
-// });
-
-// arrayOfInsertions.push(() => {
-//     return models.Ranking.create({
-//         name: "Ranking mixto",
-//         year: 2022,
-//         rankingType: "Mixto"
-//     });
-// });
-
-
-// //Journey
-// arrayOfInsertions.push(() => {
-//     return models.Journey.create({
-//         // number: 1,
-//         rankingId: 1
-//     });
-// });
-
-// arrayOfInsertions.push(() => {
-//     return models.Journey.create({
-//         // number: 1,
-//         rankingId: 2
-//     });
-// });
-
-// arrayOfInsertions.push(() => {
-//     return models.Journey.create({
-//         // number: 1,
-//         rankingId: 3
-//     });
-// });
 
 
 async function executeInsertions() {
