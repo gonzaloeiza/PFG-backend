@@ -399,6 +399,74 @@ function addContactForm(name, surname, email, message) {
     });
 }
 
+function getUserData(userId) {
+    return new Promise((resolve, reject) => {
+        models.User.findOne({
+            where: {id: userId},
+            attributes: {exclude: ["passwordHash", "pendingSignUp", "createdAt"]},
+            raw: true
+        }).then((data) => {
+            if (data) {
+                return resolve(data);
+            } else {
+                return reject(databaseError);
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function updateUserProfile(userId, userData) {
+    return new Promise((resolve, reject) => {
+        models.User.update(userData, {
+            where: {id: userId}
+        }).then(() => {
+            return resolve("Se ha actualizado el perfil correctamente");
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+
+function userDoesNotHavePendingBookingsToPay(userId) {
+    return new Promise((resolve, reject) => {
+        models.Booking.findOne({
+            include: {
+                model: models.User,
+                as: "user",
+                required: true,
+                where: {id: userId},
+                attributes: []
+            },
+            where: {paid: false},
+            attributes: ["id"],
+            raw: true
+        }).then((data) => {
+            if (data) {
+                return reject("No puedes borrar tu cuenta porque tienes reservas pendientes por pagar");
+            } else {
+                return resolve();
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function deleteUserAccount(userId) {
+    return new Promise((resolve, reject) => {
+        models.User.destroy({
+            where: {id: userId}
+        }).then(() => {
+            return resolve("La cuenta se ha eliminado con éxito");
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     emailExists,
     signIn,
@@ -416,4 +484,8 @@ module.exports = {
     courtExists,
     getCourtDataById,
     addContactForm,
+    getUserData,
+    updateUserProfile,
+    userDoesNotHavePendingBookingsToPay,
+    deleteUserAccount,
 }

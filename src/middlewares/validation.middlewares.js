@@ -1,4 +1,4 @@
-const { validationService } = require("../services");
+const { validationService, databaseService } = require("../services");
 
 function validateSignup(req, res, next) {
     const promises = [
@@ -11,7 +11,7 @@ function validateSignup(req, res, next) {
         validationService.validateEmail(req.body.email),
         validationService.validatePhoneNumber(req.body.phoneNumber),
         validationService.validatePassword(req.body.password),
-        validationService.vaidateDirection(req.body.direction),
+        validationService.validateDirection(req.body.direction),
         validationService.validatePoblation(req.body.poblation),
         validationService.validatePostalCode(req.body.postalCode),
         validationService.validateProvince(req.body.province),
@@ -113,6 +113,42 @@ function verifyContactForm(req, res, next) {
     });
 }
 
+function validateUserProfile(req, res, next) {
+    const promises = [
+        validationService.validateDNI(req.body.dni),
+        validationService.validateName(req.body.name),
+        validationService.validateFirstSurname(req.body.firstSurname),
+        validationService.validateSecondSurname(req.body.secondSurname),
+        validationService.validateBirthDate(req.body.dateBirth),
+        validationService.validateGender(req.body.gender),
+        validationService.validatePhoneNumber(req.body.phoneNumber),
+        validationService.validateDirection(req.body.direction),
+        validationService.validatePoblation(req.body.poblation),
+        validationService.validatePostalCode(req.body.postalCode),
+        validationService.validateProvince(req.body.province),
+    ]
+
+    if (req.body.newPassword !== undefined && req.body.newPassword !== null && req.body.newPassword !== "") {
+        promises.push(validationService.validatePassword(req.body.newPassword));
+    }
+
+    Promise.all(promises).then(() => {
+        return next();
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
+function validationNoPendingBookingsToPay(req, res, next) {
+    const userId = req.userId;
+    validationService.hasPendingBookingsToPay(userId).then(() => {
+        return next();
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+
+}
+
 module.exports = {
     validateSignup,
     validateLogin,
@@ -122,4 +158,6 @@ module.exports = {
     validateCancelation,
     validateCourt,
     verifyContactForm,
+    validateUserProfile,
+    validationNoPendingBookingsToPay,
 }

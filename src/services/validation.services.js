@@ -129,7 +129,7 @@ function validateFirstSurname(firstSurname) {
 
 function validateSecondSurname(secondSurname) {
     return new Promise((resolve, reject) => {
-        const secondSurnameRegex = /^[a-zA-Z]*$/;
+        const secondSurnameRegex = /^[a-zA-Z\s]*$/;
         if (secondSurnameRegex.test(secondSurname)) {
             return resolve();
         } else {
@@ -149,7 +149,7 @@ function validateGender(gender) {
 }
 
 
-function vaidateDirection(direction) {
+function validateDirection(direction) {
     return new Promise((resolve, reject) => {
         const directionRE = /^[a-zA-Z0-9ªº-\s]*$/;
         if (directionRE.test(direction)) {
@@ -365,6 +365,16 @@ function validateCourtId(courtId) {
     });
 }
 
+function hasPendingBookingsToPay(userId) {
+    return new Promise((resolve, reject) => {
+        databaseService.userDoesNotHavePendingBookingsToPay(userId).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        });
+    });
+}
+
 module.exports = {
     validateDNI,
     validateName,
@@ -375,7 +385,7 @@ module.exports = {
     validateEmail,
     validatePhoneNumber,
     validatePassword,
-    vaidateDirection,
+    validateDirection,
     validatePoblation,
     validatePostalCode,
     validateProvince,
@@ -390,4 +400,5 @@ module.exports = {
     validateBookingIdIsInteger,
     validateBookingCancelation,
     validateCourtId,
+    hasPendingBookingsToPay,
 }
