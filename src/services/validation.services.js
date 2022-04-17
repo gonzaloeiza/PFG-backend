@@ -375,6 +375,17 @@ function hasPendingBookingsToPay(userId) {
     });
 }
 
+function isUserInscribedOnRanking(rankingId, userId) {
+    return new Promise((resolve, reject) => {
+        databaseService.isUserInscribedOnRanking(rankingId, userId).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        });
+    });
+}
+
+
 module.exports = {
     validateDNI,
     validateName,
@@ -401,4 +412,5 @@ module.exports = {
     validateBookingCancelation,
     validateCourtId,
     hasPendingBookingsToPay,
+    isUserInscribedOnRanking,
 }

@@ -467,6 +467,153 @@ function deleteUserAccount(userId) {
     });
 }
 
+function getRankingsOfUser(userId) {
+    return new Promise((resolve, reject) => {
+        models.Partner.findAll({
+            where: {
+                [Op.or] : [
+                    {playerOneId: userId},
+                    {playerTwoId: userId}
+                ]
+            },
+            include: [
+                {
+                    model: models.Ranking,
+                    as: "ranking",
+                    required: true,
+                    where: {registrationOpen: 0},
+                    attributes: {exclude: ["id", "registrationOpen", "createdAt", "updatedAt"]}
+                },
+                {
+                    model: models.User,
+                    as: "playerOne",
+                    required: true,
+                    attributes: []
+                },{
+                    model: models.User,
+                    as: "playerTwo",
+                    required: true,
+                    attributes: []
+                }
+            ],
+            attributes: {exclude: ["playerOneId", "playerTwoId", "createdAt", "updatedAt"]},
+            raw: true
+        }).then((data) => {
+            if (data.length > 0) {
+                return resolve(data);
+            } else {
+                return reject("No estas inscrito en ningún ranking");
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function isUserInscribedOnRanking(rankingId, userId) {
+    return new Promise((resolve, reject) => {
+        models.Partner.findOne({
+            where: {
+                [Op.and] : [
+                    {rankingId: rankingId},
+                    {
+                        [Op.or] : [
+                            {playerOneId: userId},
+                            {playerTwoId: userId}
+                        ]
+                    }
+                ]
+            },
+            attributes: {exclude: ["createdAt", "updatedAt"]},
+            raw: true,
+        }).then((data) => {
+            if (data) {
+                return resolve(data);
+            } else {
+                return reject("No estas inscrito en este ranking");
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+
+function getDataOfSpecificRanking(rankingId, partnerId) {
+    return new Promise((resolve, reject) => {
+        models.Match.findAll({
+            where: {
+                [Op.or]: [
+                    {partnerOneId: partnerId},
+                    {partnerTwoId: partnerId}
+                ]
+            },
+            include: [
+                {
+                    model: models.Group,
+                    as: "group",
+                    required: true,
+                    attributes: ["id", "number"],
+                    where: {rankingId: rankingId},
+                    include: {
+                        model: models.Ranking,
+                        as: "ranking",
+                        required: true,
+                        attributes: ["name", "description", "createdAt"]
+                    }
+                },
+                {
+                    model: models.Partner,
+                    as: "partnerOne",
+                    required: true,
+                    attributes: ["id"],
+                    include: [
+                        {
+                          model: models.User,
+                          as: "playerOne",
+                          required: true,
+                          attributes: ["id", "email", "name", "firstSurname"]  
+                        },
+                        {
+                        model: models.User,
+                          as: "playerTwo",
+                          required: true,
+                          attributes: ["id", "email", "name", "firstSurname"] 
+                        }
+                    ]
+                },
+                {
+                    model: models.Partner,
+                    as: "partnerTwo",
+                    required: true,
+                    attributes: ["id"],
+                    include: [
+                        {
+                          model: models.User,
+                          as: "playerOne",
+                          required: true,
+                          attributes: ["id", "email", "name", "firstSurname"]  
+                        },
+                        {
+                        model: models.User,
+                          as: "playerTwo",
+                          required: true,
+                          attributes: ["id", "email", "name", "firstSurname"] 
+                        }
+                    ]
+                }
+            ],
+            attributes: {exclude: ["groupId", "partnerOneId", "partnerTwoId", "createdAt", "updatedAt"]},
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            console.log(err);
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     emailExists,
     signIn,
@@ -488,4 +635,8 @@ module.exports = {
     updateUserProfile,
     userDoesNotHavePendingBookingsToPay,
     deleteUserAccount,
+    getRankingsOfUser,
+    getRankingsOfUser,
+    isUserInscribedOnRanking,
+    getDataOfSpecificRanking,
 }

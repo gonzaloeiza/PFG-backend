@@ -3,8 +3,12 @@ const User = require("./User");
 const Court = require("./Court");
 const Booking = require("./Booking");
 const ContactForm = require("./ContactForm");
-// const Ranking = require("./Ranking");
+const Ranking = require("./Ranking");
 // const Journey = require("./Journey");
+const Group = require("./Group");
+const Partner = require("./Partner");
+const Match = require("./Match");
+
 
 module.exports = {
     Admin,
@@ -12,6 +16,9 @@ module.exports = {
     Court,
     Booking,
     ContactForm,
-    // Ranking,
+    Ranking,
     // Journey,
+    Group,
+    Partner,
+    Match,
 }

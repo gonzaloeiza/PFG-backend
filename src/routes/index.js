@@ -5,12 +5,14 @@ const auth = require("./auth.routes");
 const user = require("./user.routes");
 const booking = require("./booking.routes");
 const courts = require("./courts.routes");
+const rankings = require("./rankings.routes");
 const admin = require("./admin.routes");
 
 router.use("/auth", auth);
 router.use("/user", user);
 router.use("/booking", booking);
 router.use("/courts", courts);
+router.use("/rankings", rankings);
 router.use("/admin", admin);
 
 module.exports = router;

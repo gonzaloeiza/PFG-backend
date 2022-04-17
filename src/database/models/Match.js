@@ -1,51 +1,44 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../db");
+const Group = require("./Group");
 const Partner = require("./Partner");
-const Ranking = require("./Ranking");
 
-class Group extends Model {}
-    Group.init({
+class Match extends Model {}
+    Match.init({
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        number: {
-            type: DataTypes.INTEGER,
-            allowNull: false
+        partnerOneWins: {
+            type: DataTypes.BOOLEAN,
+            // default: false,
+            allowNull: true
         }
     }, {
         sequelize,
-        modelName: "group"
+        modelName: "match"
     });
 
-Group.belongsTo(Ranking, {
-    foreignKey: "rankingId",
-    as: "ranking",
+Match.belongsTo(Group, {
+    foreignKey: "groupId",
+    as: "group",
     onDelete: "CASCADE",
     onUpdate: "CASCADE"
 });
 
-Group.belongsTo(Partner, {
+Match.belongsTo(Partner, {
     foreignKey: "partnerOneId",
     as: "partnerOne",
     onDelete: "CASCADE",
     onUpdate: "CASCADE"
 });
 
-Group.belongsTo(Partner, {
+Match.belongsTo(Partner, {
     foreignKey: "partnerTwoId",
     as: "partnerTwo",
     onDelete: "CASCADE",
     onUpdate: "CASCADE"
 });
 
-Group.belongsTo(Partner, {
-    foreignKey: "partnerThreeId",
-    as: "partnerThree",
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE"
-});
-
-
-module.exports = Group;
+module.exports = Match;

@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { Op } = require("sequelize");
 const moment = require('moment');
+const sequelize = require("../../database/db");
 
 const databaseError = "Error, intentelo de nuevo más tarde";
 
@@ -423,6 +424,396 @@ function updateCourtPicture(courtName, courtData) {
     });
 }
 
+
+function createNewRanking(rankingData) {
+    return new Promise((resolve, reject) => {
+        models.Ranking.create(rankingData).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+
+function createNewGroup(rankingId, numberOfGroup) {
+    return new Promise((resolve, reject) => {
+        models.Group.create({
+            rankingId: rankingId,
+            number: numberOfGroup
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function partnerDoesNotExistsOnRanking(rankingId, playerOneId, playerTwoId) {
+    return new Promise((resolve, reject) => {
+        models.Partner.findOne({
+            where: {
+                [Op.and] : [
+                    {rankingId: rankingId},
+                    {
+                        [Op.or]: [
+                            {playerOneId: playerOneId},
+                            {playerOneId: playerTwoId},
+                            {playerTwoId: playerOneId},
+                            {playerTwoId: playerTwoId},
+                        ]
+                    }
+                ]
+            },
+            attributes: ["id"],
+            raw: true
+        }).then((data) => {
+            if (data){
+                return reject("Uno o los dos usuarios ya están registrados en este ranking");
+            } else {
+                return resolve();
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function createNewPartner(rankingId, playerOneId, playerTwoId) {
+    return new Promise((resolve, reject) => {
+        models.Partner.create({
+            rankingId: rankingId,
+            playerOneId: playerOneId,
+            playerTwoId: playerTwoId
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function findLastGroupNumber(rankingId) {
+    return new Promise((resolve, reject) => {
+        models.Group.findAll({
+            where: {rankingId: rankingId},
+            attributes: [[sequelize.fn("max", sequelize.col("number")), 'maxGroup']],
+            raw: true
+        }).then((data) => {
+            return resolve(data[0]);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+
+function getRankingGroupByNumber(rankingId, groupNumber) {
+    return new Promise((resolve, reject) => {
+        models.Group.findOne({
+            where: [
+                {rankingId: rankingId},
+                {number: groupNumber}
+            ],
+            attributes: ["id", "number", "rankingId", "partnerOneId", "partnerTwoId", "partnerThreeId"],
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function updateFirstPartnerOfGroup(groupId, partnerId) {
+    return new Promise((resolve, reject) => {
+        models.Group.update({
+            partnerOneId: partnerId
+        }, {
+            where: {id: groupId}
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+function updateSecondPartnerOfGroup(groupId, partnerId) {
+    return new Promise((resolve, reject) => {
+        models.Group.update({
+            partnerTwoId: partnerId
+        }, {
+            where: {id: groupId}
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+function updateThirdPartnerOfGroup(groupId, partnerId) {
+    return new Promise((resolve, reject) => {
+        models.Group.update({
+            partnerThreeId: partnerId
+        }, {
+            where: {id: groupId}
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function deleteGroup(groupId) {
+    return new Promise((resolve, reject) => {
+        models.Group.destroy({
+            where: {id: groupId}
+        }).then(() => {
+            return resolve("Grupo eliminado con éxito");
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function deletePartners(partnersIds) {
+    return new Promise((resolve, reject) => {
+        models.Partner.destroy({
+            where: {id: partnersIds}
+        }).then(() => {
+            return resolve("Parejas eliminadas con éxito");
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function getAllPartnersFromRanking(rankingId) {
+    return new Promise((resolve, reject) => {
+        models.Partner.findAll({
+            where: {rankingId:rankingId},
+            include: [
+                {
+                model: models.User,
+                as: "playerOne",
+                required: true,
+                attributes: ["id","email",  "name", "firstSurname", "secondSurname", "rankingPoints"]
+            },
+            {
+                model: models.User,
+                as: "playerTwo",
+                required: true,
+                attributes: ["id","email", "name", "firstSurname", "secondSurname", "rankingPoints"]
+            }
+        ],
+        attributes: ["id"],
+        raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function updateFirstPartnerOfGroupByRankingIdAndNumberOfGroup(rankingId, numberOfGroup, partnerId){
+    return new Promise((resolve, reject) => {
+        models.Group.update({
+            partnerOneId: partnerId
+        }, {
+            where: [
+                {rankingId: rankingId},
+                {number: numberOfGroup}
+            ],
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function updateSecondPartnerOfGroupByRankingIdAndNumberOfGroup(rankingId, numberOfGroup, partnerId) {
+    return new Promise((resolve, reject) => {
+        models.Group.update({
+            partnerTwoId: partnerId
+        }, {
+            where: [
+                {rankingId: rankingId},
+                {number: numberOfGroup}
+            ],
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+function updateThirdPartnerOfGroupByRankingIdAndNumberOfGroup(rankingId, numberOfGroup, partnerId) {
+    return new Promise((resolve, reject) => {
+        models.Group.update({
+            partnerThreeId: partnerId
+        }, {
+            where: [
+                {rankingId: rankingId},
+                {number: numberOfGroup}
+            ],
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    }); 
+}
+
+function getAllGroupsFromRanking(rankingId) {
+    return new Promise((resolve, reject) => {
+        models.Group.findAll({
+            where: {rankingId: rankingId},
+            attributes: ["id", "number", "partnerOneId", "partnerTwoId", "partnerThreeId"],
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            console.log(err);
+            return reject(databaseError);
+        });
+    });
+}
+
+function createMatch(groupId, partnerOneId, partnerTwoId) {
+    return new Promise((resolve, reject) => {
+        models.Match.create({
+            groupId: groupId,
+            partnerOneId: partnerOneId,
+            partnerTwoId: partnerTwoId
+        }).then((data) => {
+            return resolve(data);            
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function setRankingRegistrationClosed(rankingId) {
+    return new Promise((resolve, reject) => {
+        models.Ranking.update({
+            registrationOpen: false
+        }, 
+        {
+            where: {id: rankingId}
+        }).then(() => {
+            return resolve();
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function getAllRankings() {
+    return new Promise((resolve, reject) => {
+        models.Ranking.findAll({
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function getRankingData(rankingId) {
+    return new Promise((resolve, reject) => {
+        models.Ranking.findOne({
+            where: {id: rankingId},
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function getMatchesFromRanking(rankingId) {
+    return new Promise((resolve, reject) => {
+        models.Match.findAll({
+            attributes: {exclude: ["groupId", "partnerOneId", "partnerTwoId", "createdAt", "updatedAt"]},
+            raw: true,
+            include: [
+                {
+                    model: models.Group,
+                    as: "group",
+                    required: true,
+                    attributes: ["id", "number"],
+                    where: {rankingId: rankingId},
+                },
+                {
+                    model: models.Partner,
+                    as: "partnerOne",
+                    required: true,
+                    attributes: ["id"],
+                    include: [
+                        {
+                          model: models.User,
+                          as: "playerOne",
+                          required: true,
+                          attributes: ["id", "email", "name", "firstSurname"]  
+                        },
+                        {
+                        model: models.User,
+                          as: "playerTwo",
+                          required: true,
+                          attributes: ["id", "email", "name", "firstSurname"] 
+                        }
+                    ]
+                },
+                {
+                    model: models.Partner,
+                    as: "partnerTwo",
+                    required: true,
+                    attributes: ["id"],
+                    include: [
+                        {
+                          model: models.User,
+                          as: "playerOne",
+                          required: true,
+                          attributes: ["id", "email", "name", "firstSurname"]  
+                        },
+                        {
+                        model: models.User,
+                          as: "playerTwo",
+                          required: true,
+                          attributes: ["id", "email", "name", "firstSurname"] 
+                        }
+                    ]
+                }
+            ],
+        }).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            console.log(err);
+            return reject(databaseError);
+        });
+    });
+}
+
+function deleteRanking(rankingId) {
+    return new Promise((resolve, reject) => {
+        models.Ranking.destroy({
+            where: {id: rankingId}
+        }).then(() => {
+            resolve("Ranking borrado con éxito");
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     signin,
     getPendingUsers,
@@ -443,4 +834,26 @@ module.exports = {
     updateAdminPassword,
     adminExists,
     updateCourtPicture,
+    createNewRanking,
+    createNewGroup,
+    partnerDoesNotExistsOnRanking,
+    createNewPartner,
+    findLastGroupNumber,
+    getRankingGroupByNumber,
+    updateFirstPartnerOfGroup,
+    updateSecondPartnerOfGroup,
+    updateThirdPartnerOfGroup,
+    deleteGroup,
+    deletePartners,
+    getAllPartnersFromRanking,
+    updateFirstPartnerOfGroupByRankingIdAndNumberOfGroup,
+    updateSecondPartnerOfGroupByRankingIdAndNumberOfGroup,
+    updateThirdPartnerOfGroupByRankingIdAndNumberOfGroup,
+    getAllGroupsFromRanking,
+    createMatch,
+    setRankingRegistrationClosed,
+    getAllRankings,
+    getRankingData,
+    getMatchesFromRanking,
+    deleteRanking,
 }

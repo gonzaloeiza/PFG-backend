@@ -146,7 +146,16 @@ function validationNoPendingBookingsToPay(req, res, next) {
     }).catch((err) => {
         return res.status(400).send({message: err});
     });
+}
 
+function validateRankingId(req, res, next) {
+    const userId = req.userId;
+    const rankingId = Number(req.params.rankingId);
+    validationService.isUserInscribedOnRanking(rankingId, userId).then(() => {
+        return next();
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
 }
 
 module.exports = {
@@ -160,4 +169,5 @@ module.exports = {
     verifyContactForm,
     validateUserProfile,
     validationNoPendingBookingsToPay,
+    validateRankingId,
 }

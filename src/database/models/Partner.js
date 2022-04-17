@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../db");
+const Ranking = require("./Ranking");
 const User = require("./User");
 
 class Partner extends Model {}
@@ -14,12 +15,20 @@ class Partner extends Model {}
         modelName: "partner"
     });
 
+Partner.belongsTo(Ranking, {
+    foreignKey: "rankingId",
+    as: "ranking",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
+})
+
 Partner.belongsTo(User, {
     foreignKey: "playerOneId",
     as: "playerOne",
     onDelete: "CASCADE",
     onUpdate: "CASCADE"
 });
+
 
 Partner.belongsTo(User, {
     foreignKey: "playerTwoId",

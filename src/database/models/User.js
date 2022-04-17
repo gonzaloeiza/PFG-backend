@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../db");
-const {genderOptions, sidePlayingOptions} = require("../../config");
+const {genderOptions} = require("../../config");
 
 class User extends Model {}
     User.init({
@@ -65,6 +65,10 @@ class User extends Model {}
         pendingSignUp: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
+        },
+        rankingPoints: {
+            type: DataTypes.DOUBLE,
+            defaultValue: 0
         }
         
     }, {
