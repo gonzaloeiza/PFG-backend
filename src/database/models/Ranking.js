@@ -22,6 +22,10 @@ class Ranking extends Model {}
             allowNull: false,
             defaultValue: true
         },
+        journeyNumber: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        }
     }, {
         sequelize,
         modelName: "ranking"

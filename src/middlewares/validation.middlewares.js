@@ -158,6 +158,24 @@ function validateRankingId(req, res, next) {
     });
 }
 
+
+function validateAddResult(req, res, next) {
+    const matchId = req.body.matchId;
+    const partnerOneId = req.body.partnerOneId;
+    const partnerOneWins = req.body.partnerOneWins;
+
+    const promises = [
+        validationService.isValidMatch(matchId, partnerOneId),
+        validationService.isValidMatchResult(partnerOneWins),
+    ];
+
+    Promise.all(promises).then(() => {
+        return next();
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
 module.exports = {
     validateSignup,
     validateLogin,
@@ -170,4 +188,5 @@ module.exports = {
     validateUserProfile,
     validationNoPendingBookingsToPay,
     validateRankingId,
+    validateAddResult,
 }

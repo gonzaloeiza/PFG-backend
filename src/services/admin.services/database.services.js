@@ -678,8 +678,7 @@ function getAllGroupsFromRanking(rankingId) {
             raw: true
         }).then((data) => {
             return resolve(data);
-        }).catch((err) => {
-            console.log(err);
+        }).catch(() => {
             return reject(databaseError);
         });
     });
@@ -702,7 +701,8 @@ function createMatch(groupId, partnerOneId, partnerTwoId) {
 function setRankingRegistrationClosed(rankingId) {
     return new Promise((resolve, reject) => {
         models.Ranking.update({
-            registrationOpen: false
+            registrationOpen: false,
+            journeyNumber: 1
         }, 
         {
             where: {id: rankingId}
@@ -795,8 +795,7 @@ function getMatchesFromRanking(rankingId) {
             ],
         }).then((data) => {
             return resolve(data);
-        }).catch((err) => {
-            console.log(err);
+        }).catch(() => {
             return reject(databaseError);
         });
     });

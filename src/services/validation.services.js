@@ -385,6 +385,31 @@ function isUserInscribedOnRanking(rankingId, userId) {
     });
 }
 
+function isValidMatch(matchId, partnerOneId) {
+    return new Promise((resolve, reject) => {
+        if (Number.isInteger(Number(matchId)) && Number.isInteger(Number(partnerOneId))) {
+            databaseService.doesMatchExist(matchId, partnerOneId).then(() => {
+                return resolve();
+            }).catch((err) => {
+                return reject(err);
+            });
+        } else {
+            return reject("Id de partido o de pareja no válido.");
+        }
+    });
+}
+
+
+function isValidMatchResult(partnerOneWins) {
+    return new Promise((resolve, reject) => {
+        if (partnerOneWins === "null" || partnerOneWins === "1" || partnerOneWins === "0") {
+            return resolve();
+        } else {
+            return reject("El resultado introducido no es válido");
+        }
+    });
+}
+
 
 module.exports = {
     validateDNI,
@@ -413,4 +438,6 @@ module.exports = {
     validateCourtId,
     hasPendingBookingsToPay,
     isUserInscribedOnRanking,
+    isValidMatch,
+    isValidMatchResult,
 }

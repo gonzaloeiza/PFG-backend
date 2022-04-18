@@ -94,7 +94,6 @@ function deleteLastGroupIfNotFull(rankingId) {
                     if (groupData.partnerThreeId !== null) {
                         partnerIds.push(groupData.partnerThreeId);
                     }
-                    console.log(partnerIds);
                     databaseService.deleteGroup(groupData.id).then(() => {
                         databaseService.deletePartners(partnerIds).then(() => {
                             return resolve();

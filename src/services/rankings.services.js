@@ -24,7 +24,18 @@ function getSpecificRanking(rankingId, userId) {
     });
 }
 
+function addResult(matchId, partnerOneWins) {
+    return new Promise((resolve, reject) => {
+        databaseService.setResultOfMatch(matchId, partnerOneWins).then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        });
+    });
+}
+
 module.exports = {
     getMyRankings,
     getSpecificRanking,
+    addResult,
 }

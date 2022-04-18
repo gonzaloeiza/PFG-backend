@@ -19,7 +19,21 @@ function getSpecificRanking(req, res, next) {
     });
 }
 
+function addResult(req, res, next) {
+    const matchId = req.body.matchId;
+    var partnerOneWins = req.body.partnerOneWins;
+    if (partnerOneWins === "null") {
+        partnerOneWins = null;
+    }
+    rankingsService.addResult(matchId, partnerOneWins).then((data) => {
+        return res.status(200).send({message: data});
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
 module.exports = {
     getMyRankings,
     getSpecificRanking,
+    addResult,
 }

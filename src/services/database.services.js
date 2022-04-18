@@ -559,7 +559,7 @@ function getDataOfSpecificRanking(rankingId, partnerId) {
                         model: models.Ranking,
                         as: "ranking",
                         required: true,
-                        attributes: ["name", "description", "createdAt"]
+                        attributes: ["name", "description", "journeyNumber", "createdAt"]
                     }
                 },
                 {
@@ -572,13 +572,13 @@ function getDataOfSpecificRanking(rankingId, partnerId) {
                           model: models.User,
                           as: "playerOne",
                           required: true,
-                          attributes: ["id", "email", "name", "firstSurname"]  
+                          attributes: ["id", "email", "name", "firstSurname", "secondSurname", "phoneNumber"]  
                         },
                         {
                         model: models.User,
                           as: "playerTwo",
                           required: true,
-                          attributes: ["id", "email", "name", "firstSurname"] 
+                          attributes: ["id", "email", "name", "firstSurname", "secondSurname", "phoneNumber"] 
                         }
                     ]
                 },
@@ -592,13 +592,13 @@ function getDataOfSpecificRanking(rankingId, partnerId) {
                           model: models.User,
                           as: "playerOne",
                           required: true,
-                          attributes: ["id", "email", "name", "firstSurname"]  
+                          attributes: ["id", "email", "name", "firstSurname", "secondSurname", "phoneNumber"]  
                         },
                         {
                         model: models.User,
                           as: "playerTwo",
                           required: true,
-                          attributes: ["id", "email", "name", "firstSurname"] 
+                          attributes: ["id", "email", "name", "firstSurname", "secondSurname", "phoneNumber"] 
                         }
                     ]
                 }
@@ -607,8 +607,42 @@ function getDataOfSpecificRanking(rankingId, partnerId) {
             raw: true
         }).then((data) => {
             return resolve(data);
-        }).catch((err) => {
-            console.log(err);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function setResultOfMatch(matchId, result) {
+    return new Promise((resolve, reject) => {
+        models.Match.update({
+            partnerOneWins: result
+        }, {
+            where: {id: matchId}
+        }).then(() => {
+            return resolve("Resultado actualizado con éxito");
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function doesMatchExist(matchId, partnerOneId) {
+    return new Promise((resolve, reject) => {
+        models.Match.findOne({
+            where: [
+                {partnerOneId: partnerOneId},
+                {id: matchId}
+            ],
+            attributes: ["id"],
+            raw: true
+        }).then((data) => {
+            if (data) {
+                return resolve(data);
+            } else {
+                return reject("No existe ningún partido para esa pareja con ese id");
+            }
+        }).catch(() => {
             return reject(databaseError);
         });
     });
@@ -639,4 +673,6 @@ module.exports = {
     getRankingsOfUser,
     isUserInscribedOnRanking,
     getDataOfSpecificRanking,
+    setResultOfMatch,
+    doesMatchExist,
 }

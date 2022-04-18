@@ -12,7 +12,6 @@ function getRankings(req, res, next) {
 
 function createNewRanking(req, res, next) {
     var rankingData = {};
-    console.log(req.body);
     rankingData.name = req.body.name;
     
     if (req.body.description !== "" && req.body.description !== undefined && req.body.description !== null) {
