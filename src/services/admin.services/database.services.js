@@ -675,6 +675,7 @@ function getAllGroupsFromRanking(rankingId) {
         models.Group.findAll({
             where: {rankingId: rankingId},
             attributes: ["id", "number", "partnerOneId", "partnerTwoId", "partnerThreeId"],
+            order: [["number", "ASC"]],
             raw: true
         }).then((data) => {
             return resolve(data);
@@ -743,6 +744,7 @@ function getMatchesFromRanking(rankingId) {
     return new Promise((resolve, reject) => {
         models.Match.findAll({
             attributes: {exclude: ["groupId", "partnerOneId", "partnerTwoId", "createdAt", "updatedAt"]},
+            order: [["id", "ASC"]],
             raw: true,
             include: [
                 {
@@ -813,6 +815,125 @@ function deleteRanking(rankingId) {
     });
 }
 
+function setNotPlayedMatchesToLost(matchId) {
+    return new Promise((resolve, reject) => {
+        models.Match.update({
+            partnerOneWins: false
+        }, {
+            where: {id: matchId}
+        }).then(() => {
+            return resolve();
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function getResultOfMatchWhenPartnerOne(groupId, partnerId) {
+    return new Promise((resolve, reject) => {
+        models.Match.findOne({
+            where:[
+                {partnerOneId: partnerId},
+                {groupId: groupId}
+            ],
+            attributes: ["id", "partnerOneWins"],
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function getResultOfMatchWhenPartnerTwo(groupId, partnerId) {
+    return new Promise((resolve, reject) => {
+        models.Match.findOne({
+            where:[
+                {partnerTwoId: partnerId},
+                {groupId: groupId}
+            ],
+            attributes: ["id", "partnerOneWins"],
+            raw: true
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function deleteMatch(matchId) {
+    return new Promise((resolve, reject) => {
+        models.Match.destroy({
+            where: {id: matchId}
+        }).then(() => {
+            return resolve("Partido eliminado con éxito");
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function updateRankingJourney(rankingId, journeyNumber) {
+    return new Promise((resolve, reject) => {
+        models.Ranking.update({
+            journeyNumber: journeyNumber
+        }, {
+            where: {id: rankingId}
+        }
+        ).then(() => {
+            return resolve("Jornada de ranking incrementada con éxito");
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function getPartnerData(partnerId) {
+    return new Promise((resolve, reject) => {
+        models.Partner.findOne({
+            where: {id: partnerId},
+            include: [
+                {
+                    model: models.User,
+                    as: "playerOne",
+                    required: true
+                }, {
+                    model: models.User,
+                    as: "playerTwo",
+                    required: true
+                }
+            ],
+            raw: true
+        }).then((data) => {
+            if (data) {
+                return resolve(data);
+            } else {
+                return reject("No existe ninguna pareja con ese id");
+            }
+        }).catch((err) => {
+            console.log(err);
+            return reject(databaseError);
+        });
+    });
+}
+
+
+function updateUserPoints(userId, points) {
+    return new Promise((resolve, reject) => {
+        models.User.update({
+            rankingPoints: points
+        }, {
+            where: {id: userId}
+        }).then(() => {
+            return resolve("Puntos del usuario del ranking actualizado con éxito");
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     signin,
     getPendingUsers,
@@ -855,4 +976,11 @@ module.exports = {
     getRankingData,
     getMatchesFromRanking,
     deleteRanking,
+    setNotPlayedMatchesToLost,
+    getResultOfMatchWhenPartnerOne,
+    getResultOfMatchWhenPartnerTwo,
+    deleteMatch,
+    updateRankingJourney,
+    getPartnerData,
+    updateUserPoints,
 }

@@ -69,6 +69,16 @@ function deleteRanking(req, res, next) {
     });
 }
 
+function generateNewJourney(req, res, next) {
+    const rankingId = req.body.rankingId;
+
+    rankingsService.generateNewJourney(rankingId).then((data) => {
+        return res.status(200).send({message: data});
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
 module.exports = {
     getRankings,
     createNewRanking,
@@ -76,4 +86,5 @@ module.exports = {
     startRanking,
     getRankingData,
     deleteRanking,
+    generateNewJourney,
 }

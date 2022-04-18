@@ -9,11 +9,8 @@ router.post("/createNewRanking", authMiddleware.verifyToken, rankingsController.
 router.post("/addPartnerToRanking", authMiddleware.verifyToken, rankingsController.addPartnerToRanking);
 router.post("/startRanking", authMiddleware.verifyToken, rankingsController.startRanking);
 router.delete("/deleteRanking", authMiddleware.verifyToken, rankingsController.deleteRanking);
+router.post("/generateNewJourney", authMiddleware.verifyToken, rankingsController.generateNewJourney);
 router.get("/:rankingId", authMiddleware.verifyToken, rankingsController.getRankingData);
-// router.post("/", authMiddleware.verifyToken, bookingsController.getBookings);
-// router.delete("/", authMiddleware.verifyToken, bookingsController.deleteBooking);
-// router.get("/courts", authMiddleware.verifyToken, bookingsController.getCourts);
-// router.post("/handlePaid", authMiddleware.verifyToken, bookingsController.handlePaid);
 
 
 module.exports = router;
