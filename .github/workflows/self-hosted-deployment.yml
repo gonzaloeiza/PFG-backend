@@ -25,5 +25,5 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: cp /home/gonzalo/pfg/pfg-backend/static/.env /home/gonzalo/pfg/pfg-backend/actions-runner/_work/PFG-backend/PFG-backend/.env
-    - run: cd /home/gonzalo/pfg/actions-runner/_work/PFG-backend/PFG-backend/
+    - run: cd /home/gonzalo/pfg/pfg-backend/actions-runner/_work/PFG-backend/PFG-backend/
     - run: pm2 restart pfg-backend
