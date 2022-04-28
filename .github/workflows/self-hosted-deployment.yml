@@ -26,8 +26,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - run: cd /home/gonzalo/pfg/actions-runner/_work/PFG-backend/PFG-backend/
+    - run: pm2 stop pfg-backend
     - run: npm ci
-
-    # - run: cp /home/gonzalo/pfg/static/PFG-backend/.env /home/gonzalo/pfg/
-    # - run: cp /var/www/deployment-wagen-back/static-files/.env /var/www/deployment-wagen-back/actions-runner/_work/wagen-backend-mvp/wagen-backend-mvp/.env
-    # - run: pm2 restart wagen-backend
+    - run: cp /home/gonzalo/pfg/static/PFG-backend/.env /home/gonzalo/pfg/actions-runner/_work/PFG-backend/PFG-backend/.env
+    - run: pm2 start server.js --name pfg-backend
