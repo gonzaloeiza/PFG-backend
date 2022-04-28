@@ -22,7 +22,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
+    - run: yarn install
     - run: cp /home/gonzalo/pfg/pfg-backend/static/.env /home/gonzalo/pfg/pfg-backend/actions-runner/_work/PFG-backend/PFG-backend/.env
     - run: cd /home/gonzalo/pfg/pfg-backend/actions-runner/_work/PFG-backend/PFG-backend
     - run: pm2 restart pfg-backend
