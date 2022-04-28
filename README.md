@@ -39,9 +39,9 @@ The next step is to create the MYSQL database and the user that will be used, an
 ```
 DROP SCHEMA IF EXISTS padelDB;
 CREATE SCHEMA padelDB;
-DROP USER IF EXISTS 'deployer'@'localhost';
-CREATE USER IF NOT EXISTS 'deployer'@'localhost' IDENTIFIED BY 'deployer';
-GRANT ALL ON padelDB.* TO 'deployer'@'localhost';
+DROP USER IF EXISTS 'deployer'@'%';
+CREATE USER IF NOT EXISTS 'deployer'@'%' IDENTIFIED BY 'deployer';
+GRANT ALL ON padelDB.* TO 'deployer'@'%';
 ```
 
 Before starting to run the scripts, you must configure an .env file. You have an example (/.env.example) on the source code with the required variables.
