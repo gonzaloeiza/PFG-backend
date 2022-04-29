@@ -3,6 +3,7 @@
 ![node version](https://img.shields.io/badge/node-v16.14.0-green)
 ![npm](https://img.shields.io/badge/npm-v8.5.4-green)
 ![mysql](https://img.shields.io/badge/mysql-5.5-blue)
+[![deployment pfg-backend](https://github.com/gonzaloeiza/PFG-backend/actions/workflows/self-hosted-deployment.yml/badge.svg)](https://github.com/gonzaloeiza/PFG-backend/actions/workflows/self-hosted-deployment.yml)
 
 ## Table of Contents
 
