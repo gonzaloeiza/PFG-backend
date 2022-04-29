@@ -12,4 +12,5 @@ router.delete("/pendingUser", authMiddleware.verifyToken, usersController.reject
 router.post("/updateProfile", authMiddleware.verifyToken, usersController.updateProfile);
 router.get("/:userId", authMiddleware.verifyToken, usersController.getUserData);
 router.delete("/:userId", authMiddleware.verifyToken, usersController.deleteUser);
+
 module.exports = router;
