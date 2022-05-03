@@ -61,6 +61,30 @@ function sendSignUpEmail(userEmail, userName) {
     sendEmail(mailOptions);
 }
 
+
+function sendAcceptRegistrationRequest(userEmail, userName) {
+    var mailOptions = {
+        from: process.env.NODEMAILER_USER,
+        to: userEmail,
+        subject: "Solicitud de registro de Padel play aprobada",
+        text: `Hola ${userName}:\n\nSu solicitud de registro para el club deportivo Padel play ha sido aceptada. Bienvenido al centro deportivo.\n\nUn saludo,\n\nPadel play.`
+    }
+    sendEmail(mailOptions);
+}
+
+function restorePassword(userEmail, userName, newPassword) {
+    var mailOptions = {
+        from: process.env.NODEMAILER_USER,
+        to: userEmail,
+        subject: "Restablecimiento de contraseña Padel Play",
+        text: `Hola ${userName}:\n\nSu nueva contraseña es: ${newPassword}. Es recomendable que sea cambiada.\n\nUn saludo,\n\nPadel play.`
+    }
+    sendEmail(mailOptions);
+}
+
+
 module.exports = {
-    sendSignUpEmail
+    sendSignUpEmail,
+    sendAcceptRegistrationRequest,
+    restorePassword,
 }
