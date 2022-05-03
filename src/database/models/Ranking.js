@@ -1,6 +1,5 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../db");
-const {rankingTypes} = require("../../config");
 
 class Ranking extends Model {}
     Ranking.init({

@@ -8,7 +8,6 @@ const Group = require("./Group");
 const Partner = require("./Partner");
 const Match = require("./Match");
 
-
 module.exports = {
     Admin,
     User,

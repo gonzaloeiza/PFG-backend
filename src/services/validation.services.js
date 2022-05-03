@@ -415,11 +415,11 @@ function validateRestorePassword(email, dni) {
         const emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (emailRE.test(email)) {
             databaseService.findUserByEmail(email.toLowerCase()).then((userData) => {
-                if (userData.dni.toLowerCase() === dni.toLowerCase()) {
-                    return resolve();
-                } else {
-                    return reject("El dni no coincide con el de este correo electrónico");
-                }
+                // if (userData.dni.toLowerCase() === dni.toLowerCase()) {
+                return resolve();
+                // } else {
+                    // return reject("El dni no coincide con el de este correo electrónico");
+                // }
             }).catch((err) => {
                 return reject(err);
             });

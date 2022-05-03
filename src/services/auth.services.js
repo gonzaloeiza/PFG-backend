@@ -1,5 +1,5 @@
 const databaseService = require("./database.services");
-const emailService = require("./email.service");
+const emailService = require("./email.services");
 
 function signIn(email, password) {
     return new Promise((resolve, reject) => {

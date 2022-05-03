@@ -60,9 +60,17 @@ function deleteAccount(req, res, next) {
     });
 }
 
-function restorePassword(req, res, next) {
+function requestRestorePassword(req, res, next) {
     const email = req.body.email;
-    userService.restorePassword(email).then((data) => {
+    userService.requestRestorePassword(email).then((data) => {
+        return res.status(200).send({message: data});
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
+function restorePassword(req, res, next) {
+    userService.restorePassword(req.email, req.body.password).then((data) => {
         return res.status(200).send({message: data});
     }).catch((err) => {
         return res.status(400).send({message: err});
@@ -74,5 +82,6 @@ module.exports = {
     submitContactForm,
     updateProfile,
     deleteAccount,
+    requestRestorePassword,
     restorePassword,
 }

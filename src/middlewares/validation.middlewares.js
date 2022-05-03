@@ -1,4 +1,5 @@
-const { validationService, databaseService } = require("../services");
+const { validationService } = require("../services");
+const jwt = require("jsonwebtoken");
 
 function validateSignup(req, res, next) {
     const promises = [
@@ -184,6 +185,26 @@ function validateRestorePassword(req, res, next) {
     });
 }
 
+function validateRestorePasswordToken(req, res, next) {
+    const token = req.params.tokenId;
+    if (!token) {
+        return res.status(400).send({message: "Ha ocurrido un error. Realice una nueva solicitud de restablecimiento"});
+    }
+
+    jwt.verify(token, process.env.JWT_RESTORE_PASSWORD_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(400).send({message: "Ha ocurrido un error. Realice una nueva solicitud de restablecimiento"});
+        }
+        req.email = decoded.restorePasswordEmail;
+        validationService.validatePassword(req.body.password).then(() => {
+        next();
+        }).catch((err) => {
+            return res.status(400).send({message: err});
+        });
+    });
+}
+
+
 module.exports = {
     validateSignup,
     validateLogin,
@@ -198,4 +219,5 @@ module.exports = {
     validateRankingId,
     validateAddResult,
     validateRestorePassword,
+    validateRestorePasswordToken,
 }

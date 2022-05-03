@@ -41,50 +41,72 @@ const createTransporter = async () => {
   return transporter;
 };
 
-const sendEmail = async (emailOptions) => {
+async function sendEmail(emailOptions) {
     try {
         let emailTransporter = await createTransporter();
         await emailTransporter.sendMail(emailOptions);
+		return true;
     } catch(exception) {
-        console.log(exception);
+        return false;
     }
 };
 
 
-function sendSignUpEmail(userEmail, userName) {
+async function sendSignUpEmail(userEmail, userName) {
     var mailOptions = {
-        from: process.env.NODEMAILER_USER,
+        from: process.env.NODEMAILER_EMAIL,
         to: userEmail,
         subject: "Solicitud de registro de Padel play",
         text: `Hola ${userName}:\n\nSu solicitud de registro para el club deportivo Padel play se está tramitando lo más rápido posible. Le avisaremos en cuanto se apruebe.\n\nUn saludo,\n\nPadel play.`
     };
-    sendEmail(mailOptions);
+    return await sendEmail(mailOptions);
 }
 
 
-function sendAcceptRegistrationRequest(userEmail, userName) {
+async function sendAcceptRegistrationRequest(userEmail, userName) {
     var mailOptions = {
-        from: process.env.NODEMAILER_USER,
+        from: process.env.NODEMAILER_EMAIL,
         to: userEmail,
         subject: "Solicitud de registro de Padel play aprobada",
         text: `Hola ${userName}:\n\nSu solicitud de registro para el club deportivo Padel play ha sido aceptada. Bienvenido al centro deportivo.\n\nUn saludo,\n\nPadel play.`
     }
-    sendEmail(mailOptions);
+    return await sendEmail(mailOptions);
 }
 
-function restorePassword(userEmail, userName, newPassword) {
+async function sendRestorePassword(userEmail, userName, newPassword) {
     var mailOptions = {
-        from: process.env.NODEMAILER_USER,
+        from: process.env.NODEMAILER_EMAIL,
         to: userEmail,
         subject: "Restablecimiento de contraseña Padel Play",
-        text: `Hola ${userName}:\n\nSu nueva contraseña es: ${newPassword}. Es recomendable que sea cambiada.\n\nUn saludo,\n\nPadel play.`
+        text: `Hola ${userName}:\n\nSu nueva contraseña es la siguiente: ${newPassword}\n\nEs recomendable que sea cambiada.\n\nUn saludo,\n\nPadel play.`
     }
-    sendEmail(mailOptions);
+    return await sendEmail(mailOptions);
 }
 
+async function sendRestorePasswordLink(userEmail, userName, link) {
+	var mailOptions = {
+        from: process.env.NODEMAILER_EMAIL,
+        to: userEmail,
+        subject: "Restablecimiento de contraseña Padel Play",
+        text: `Hola ${userName}:\n\nEntre en el siguiente link para restablecer su contraseña:\n ${link}\n\nUn saludo,\n\nPadel play.`
+    }
+    return await sendEmail(mailOptions);
+}
+
+async function sendChangedPasswordConfirmation(userEmail, userName) {
+  var mailOptions = {
+    from: process.env.NODEMAILER_EMAIL,
+    to: userEmail,
+    subject: "Restablecimiento de contraseña Padel Play",
+    text: `Hola ${userName}:\n\nSu contraseña ha sido restablecida con éxito.\n\nUn saludo,\n\nPadel play.`
+}
+  return await sendEmail(mailOptions);
+}
 
 module.exports = {
-    sendSignUpEmail,
-    sendAcceptRegistrationRequest,
-    restorePassword,
+  sendSignUpEmail,
+  sendAcceptRegistrationRequest,
+  sendRestorePassword,
+	sendRestorePasswordLink,
+  sendChangedPasswordConfirmation,
 }

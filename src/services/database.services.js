@@ -668,6 +668,39 @@ function findUserByEmail(email) {
     });
 }
 
+function changeUserPassword(userEmail, newPassword) {
+    return new Promise((resolve, reject) => {
+        models.User.update({
+            passwordHash: bcrypt.hashSync(newPassword, 8)
+        }, {
+            where: {email: userEmail}
+        }).then(() => {
+            return resolve("Contraseña reiniciada con éxito");
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+
+function getUserNameByEmail(userEmail) {
+    return new Promise((resolve, reject) => {
+        models.User.findOne({
+            where: {email: userEmail},
+            attributes: ["name"],
+            raw: true
+        }).then((userData) => {
+            if (userData) {
+                return resolve(userData);
+            } else {
+                return reject("No existe ningún usuario con ese email");
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     emailExists,
     signIn,
@@ -696,4 +729,6 @@ module.exports = {
     setResultOfMatch,
     doesMatchExist,
     findUserByEmail,
+    changeUserPassword,
+    getUserNameByEmail,
 }
