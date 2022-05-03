@@ -176,6 +176,14 @@ function validateAddResult(req, res, next) {
     });
 }
 
+function validateRestorePassword(req, res, next) {
+    validationService.validateRestorePassword(req.body.email, req.body.dni).then(() => {
+        next();
+    }).catch((err) =>{
+        return res.status(400).send({message: err});
+    });
+}
+
 module.exports = {
     validateSignup,
     validateLogin,
@@ -189,4 +197,5 @@ module.exports = {
     validationNoPendingBookingsToPay,
     validateRankingId,
     validateAddResult,
+    validateRestorePassword,
 }

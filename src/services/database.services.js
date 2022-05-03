@@ -648,6 +648,26 @@ function doesMatchExist(matchId, partnerOneId) {
     });
 }
 
+function findUserByEmail(email) {
+    return new Promise((resolve, reject) => {
+        models.User.findOne({
+            where: [
+                {email: email},
+            ],
+            attributes: ["dni"],
+            raw: true
+        }).then((data) => {
+            if (data) {
+                return resolve(data);
+            } else {
+                return reject("No se ha encontrado ningún usuario con ese email");
+            }
+        }).catch((err) => {
+            return reject(err);
+        });
+    });
+}
+
 module.exports = {
     emailExists,
     signIn,
@@ -675,4 +695,5 @@ module.exports = {
     getDataOfSpecificRanking,
     setResultOfMatch,
     doesMatchExist,
+    findUserByEmail,
 }

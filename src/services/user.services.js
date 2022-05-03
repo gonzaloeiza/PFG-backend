@@ -40,9 +40,16 @@ function deleteAccount(userId) {
     });
 }
 
+function restorePassword(userEmail) {
+    return new Promise((resolve, reject) => {
+        
+    });
+}
+
 module.exports = {
     getProfile,
     submitContactForm,
     updateProfile,
     deleteAccount,
+    restorePassword,
 }

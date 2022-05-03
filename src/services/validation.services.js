@@ -410,6 +410,25 @@ function isValidMatchResult(partnerOneWins) {
     });
 }
 
+function validateRestorePassword(email, dni) {
+    return new Promise((resolve, reject) => {
+        const emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (emailRE.test(email)) {
+            databaseService.findUserByEmail(email.toLowerCase()).then((userData) => {
+                if (userData.dni.toLowerCase() === dni.toLowerCase()) {
+                    return resolve();
+                } else {
+                    return reject("El dni no coincide con el de este correo electrónico");
+                }
+            }).catch((err) => {
+                return reject(err);
+            });
+        } else {
+            return reject("Formato de email no válido");
+        }
+    });
+}
+
 
 module.exports = {
     validateDNI,
@@ -440,4 +459,5 @@ module.exports = {
     isUserInscribedOnRanking,
     isValidMatch,
     isValidMatchResult,
+    validateRestorePassword,
 }

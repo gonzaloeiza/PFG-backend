@@ -17,7 +17,7 @@ function signUp(req, res, next) {
     const userData = {
         email: req.body.email,
         passwordHash: bcrypt.hashSync(req.body.password, 8),
-        dni: req.body.dni,
+        dni: req.body.dni.toLowerCase(),
         name: req.body.name,
         firstSurname: req.body.firstSurname,
         secondSurname: req.body.secondSurname,

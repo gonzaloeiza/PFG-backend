@@ -60,9 +60,19 @@ function deleteAccount(req, res, next) {
     });
 }
 
+function restorePassword(req, res, next) {
+    const email = req.body.email;
+    userService.restorePassword(email).then((data) => {
+        return res.status(200).send({message: data});
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
 module.exports = {
     getUserProfile,
     submitContactForm,
     updateProfile,
     deleteAccount,
+    restorePassword,
 }
