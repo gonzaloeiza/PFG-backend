@@ -12,7 +12,6 @@ class Match extends Model {}
         },
         partnerOneWins: {
             type: DataTypes.BOOLEAN,
-            // default: false,
             allowNull: true
         }
     }, {

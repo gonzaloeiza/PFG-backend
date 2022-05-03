@@ -7,12 +7,6 @@ const sequelize = require("../../database/db");
 
 const databaseError = "Error, intentelo de nuevo más tarde";
 
-/**
- *  This function checks if the user's email and password matches and returns an access-token if so (signin correct).
- * @param {String} email, user's email
- * @param {String} password, user's password
- * @return {Object} returns an object with the access token and the user's name
- */
 function signin(email, password) {
     return new Promise((resolve, reject) => {
         models.Admin.findOne({
@@ -43,10 +37,7 @@ function signin(email, password) {
     });
 }
 
-/**
- *  this function gets all the users that are pending to be accepted
- * @return {Array} returns an array of object with all the users that have to be accepted
- */
+
 function getPendingUsers() {
     return new Promise((resolve, reject) => {
         models.User.findAll({
@@ -63,11 +54,6 @@ function getPendingUsers() {
 }
 
 
-/**
- *  this function sets the pendingSignUp column from a user to 0, given the userId
- * @param {Number} userId the user's primary key
- * @return {String} returns a string, that says register request accepted or error in database
- */
 function acceptUser(userId) {
     return new Promise((resolve, reject) => {
         models.User.update({
@@ -87,11 +73,7 @@ function acceptUser(userId) {
 }
 
 
-/**
- *  this function deletes user that is in pending signup (rejects registracion request)
- * @param {Number} userId the user's primary key
- * @return {String} returns a string that says if user has been deleted or not
- */
+
 function rejectUser(userId) {
     return new Promise((resolve, reject) => {
         models.User.destroy({
@@ -109,10 +91,7 @@ function rejectUser(userId) {
 }
 
 
-/**
- * this function gets all the courts and their information that are stored in the databases
- * @return {Array} returns an array ob court objects
- */
+
 function getCourts() {
     return new Promise((resolve, reject) => {
         models.Court.findAll({
@@ -127,10 +106,7 @@ function getCourts() {
 }
 
 
-/**
- * 
- * @return {} 
- */
+
 function getBookings(fromDay, toDay) {
     return new Promise((resolve, reject) => {
         models.Booking.findAll({
@@ -165,10 +141,7 @@ function getBookings(fromDay, toDay) {
     });
 }
 
-/**
- * 
- * @return {} 
- */
+
 function updateBookingIsPaid(bookingId, isPaid) {
     return new Promise((resolve, reject) => {
         models.Booking.update({
@@ -188,10 +161,7 @@ function updateBookingIsPaid(bookingId, isPaid) {
     });
 }
 
-/**
- * 
- * @return {} 
- */
+
 function deleteBooking(bookingId) {
     return new Promise((resolve, reject) => {
         models.Booking.destroy({
@@ -208,10 +178,7 @@ function deleteBooking(bookingId) {
     });
 }
 
-/**
- * 
- * @return {} 
- */
+
 function getAllUsers() {
     return new Promise((resolve, reject) => {
         models.User.findAll({
@@ -226,10 +193,7 @@ function getAllUsers() {
     });
 }
 
-/**
- * 
- * @return {} 
- */
+
 function getUserData(userId) {
     return new Promise((resolve, reject) => {
         models.User.findOne({
@@ -248,10 +212,7 @@ function getUserData(userId) {
     });
 }
 
-/**
- * 
- * @return {} 
- */
+
 function getUserBookings(userId) {
     return new Promise((resolve, reject) => {
         models.Booking.findAll({
@@ -280,10 +241,7 @@ function getUserBookings(userId) {
     });
 }
 
-/**
- * 
- * @return {} 
- */
+
 function updateUserProfile(userId, userData) {
     return new Promise((resolve, reject) => {
         models.User.update(userData,
@@ -298,10 +256,7 @@ function updateUserProfile(userId, userData) {
 }
 
 
-/**
- * 
- * @return {} 
- */
+
 function deleteUser(userId) {
     return new Promise((resolve, reject) => {
         models.User.destroy({
@@ -318,10 +273,7 @@ function deleteUser(userId) {
     });
 }
 
-/**
- * 
- * @return {} 
- */
+
 function updateCourtData(courtId, courtData) {
     return new Promise((resolve, reject) => {
         models.Court.update(courtData,
@@ -335,10 +287,7 @@ function updateCourtData(courtId, courtData) {
     });
 }
 
-/**
- * 
- * @return {} 
- */
+
  function deleteCourt(courtId) {
     return new Promise((resolve, reject) => {
         models.Court.destroy({
@@ -356,10 +305,7 @@ function updateCourtData(courtId, courtData) {
 }
 
 
-/**
- * 
- * @return {} 
- */
+
 function createCourt(courtData) {
     return new Promise((resolve, reject) => {
         models.Court.create(courtData)
@@ -372,10 +318,7 @@ function createCourt(courtData) {
 }
 
 
-/**
- * 
- * @return {} 
- */
+
  function updateAdminPassword(adminId, newPassword) {
     return new Promise((resolve, reject) => {
         models.Admin.update(
@@ -912,8 +855,7 @@ function getPartnerData(partnerId) {
             } else {
                 return reject("No existe ninguna pareja con ese id");
             }
-        }).catch((err) => {
-            console.log(err);
+        }).catch(() => {
             return reject(databaseError);
         });
     });
@@ -928,6 +870,33 @@ function updateUserPoints(userId, points) {
             where: {id: userId}
         }).then(() => {
             return resolve("Puntos del usuario del ranking actualizado con éxito");
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+
+function getContactForms() {
+    return new Promise((resolve, reject) => {
+        models.ContactForm.findAll({
+            attributes: {exclude: ["createdAt"]},
+            order: [[['updatedAt', 'desc']]],
+            raw: true,
+        }).then((data) => {
+            return resolve(data);
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+function deleteContactForm(contactFormId) {
+    return new Promise((resolve, reject) => {
+        models.ContactForm.destroy({
+            where: {id: contactFormId}
+        }).then(() => {
+            return resolve("Mensaje eliminado con éxito");
         }).catch(() => {
             return reject(databaseError);
         });
@@ -983,4 +952,6 @@ module.exports = {
     updateRankingJourney,
     getPartnerData,
     updateUserPoints,
+    getContactForms,
+    deleteContactForm,
 }
