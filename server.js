@@ -19,4 +19,3 @@ app.get('/', (req, res) => res.send('Server alive!'));
 app.listen(port, (() => {
     console.log("Listening on port " + port);
 }));
-
