@@ -26,7 +26,7 @@ function submitContactForm(req, res, next) {
 function updateProfile(req, res, next) {
     var userData = {};
     const userId = req.userId;
-    userData.dni = req.body.dni;
+    userData.dni = req.body.dni.toLowerCase();
     userData.phoneNumber = req.body.phoneNumber;
     userData.name = req.body.name;
     userData.firstSurname = req.body.firstSurname;

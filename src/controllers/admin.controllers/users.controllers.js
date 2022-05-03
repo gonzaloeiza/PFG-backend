@@ -48,7 +48,7 @@ function updateProfile(req, res, next) {
     var userData = {};
     const userId = Number(req.body.id);
     userData.email = req.body.email;
-    userData.dni = req.body.dni;
+    userData.dni = req.body.dni.toLowerCase();
     userData.phoneNumber = req.body.phoneNumber;
     userData.name = req.body.name;
     userData.firstSurname = req.body.firstSurname;

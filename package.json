@@ -13,15 +13,17 @@
     "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "google-libphonenumber": "^3.2.27",
+    "googleapis": "^100.0.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "multer": "^1.4.4",
     "mysql2": "^2.3.3",
-    "nodemailer": "^6.7.2",
-    "nodemailer-smtp-transport": "^2.7.4",
+    "nodemailer": "^6.7.4",
     "sequelize": "^6.17.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0"
   }
 }
