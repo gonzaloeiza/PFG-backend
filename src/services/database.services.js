@@ -194,7 +194,7 @@ function bookCourt(userId, courtId, courtBookReservationTime, date, withLight, a
             courtId: courtId
         }).then((data) => {
             if (data) {
-                return resolve("Reserva realizada con éxito");
+                return resolve(data);
             }
         }).catch(() => {
             return reject(databaseError);

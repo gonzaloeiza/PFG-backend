@@ -1,3 +1,4 @@
+const emailService = require("../email.services");
 const databaseService = require("./database.services");
 
 function getPendingUsers() {
@@ -11,10 +12,14 @@ function getPendingUsers() {
 }
 
 function acceptUser(userId) {
-    //TO-DO enviar correo de que se ha aceptado su solicitud
     return new Promise((resolve, reject) => {
         databaseService.acceptUser(userId).then((data) => {
-            return resolve(data);
+            databaseService.getUserData(userId).then((userData) => {
+                emailService.sendAcceptRegistrationRequest(userData.email, userData.name);
+                return resolve(data);
+            }).catch((err) => {
+                return reject(err);
+            });
         }).catch((err) => {
             return reject(err);
         });
@@ -24,8 +29,13 @@ function acceptUser(userId) {
 function rejectUser(userId) {
     //TO-DO enviar correo de que se ha rechazado su solicitud
     return new Promise((resolve, reject) => {
-        databaseService.rejectUser(userId).then((data) => {
-            return resolve(data);
+        databaseService.getUserData(userId).then((userData) => {
+            databaseService.rejectUser(userId).then((data) => {
+                emailService.sendRejectRegistrationRequest(userData.email, userData.name);
+                return resolve(data);
+            }).catch((err) => {
+                return reject(err);
+            });
         }).catch((err) => {
             return reject(err);
         });

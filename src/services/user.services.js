@@ -65,11 +65,8 @@ function restorePassword(email, password) {
     return new Promise((resolve, reject) => {
         databaseService.changeUserPassword(email, password).then(() => {
             databaseService.getUserNameByEmail(email).then((userData) => {
-                if (emailService.sendChangedPasswordConfirmation(email, userData.name)) {
-                    return resolve("Contraseña restablecida con éxito");
-                } else {
-                    return reject("Ha ocurrido un error, intentalo de nuevo más tarde");
-                }
+                emailService.sendChangedPasswordConfirmation(email, userData.name);
+                return resolve("Contraseña restablecida con éxito");
             }).catch((err) => {
                 return reject(err);
             });

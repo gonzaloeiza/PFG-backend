@@ -1,5 +1,6 @@
 const databaseService = require("./database.services");
 const moment = require('moment');
+const emailService = require("./email.services");
 
 function getCourts() {
     return new Promise((resolve, reject) => {
@@ -55,8 +56,13 @@ function book(userId, courtName, bookingDate, withLight) {
                 light = false;
             }
             var amountToPay = light ? courtData.priceWithLight : courtData.priceWithoutLight;
-            databaseService.bookCourt(userId, courtData.id, courtData.bookReservationTime, date, light, amountToPay).then((data) => {
-                return resolve(data);
+            databaseService.bookCourt(userId, courtData.id, courtData.bookReservationTime, date, light, amountToPay).then((bookingData) => {
+                databaseService.getUserData(userId).then((userData) => {
+                    emailService.sendBookingConfirmationMail(userData.email, userData.name, bookingData.day, bookingData.startTime, bookingData.finishTime, courtName, bookingData.withLight, bookingData.amountToPay);
+                    return resolve("Reserva realizada con éxito");
+                }).catch(((err) => {
+                    return reject(err);
+                }));
             }).catch((err) => {
                 return reject(err);
             });    
