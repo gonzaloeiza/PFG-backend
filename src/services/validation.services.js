@@ -264,7 +264,7 @@ function validateBookingDate(bookingDate, courtName) {
         const date = moment(bookingDate, "YYYY-MM-DD HH:mm");
         if (date.isValid() && date >= moment()) {
             validateDisponibilityDate(date.format("YYYY-MM-DD"), courtName).then(() => {
-                bookingService.getDisponibility(date.format("YYYY-MM-DD"), courtName).then((availableTimes) => {
+                bookingService.getAvailableTimes(date.format("YYYY-MM-DD"), courtName).then((availableTimes) => {
                     if (availableTimes.find((element) => date.format("HH:mm") === element) != undefined) {
                         return resolve();
                     } else {
