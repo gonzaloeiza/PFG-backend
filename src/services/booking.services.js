@@ -159,7 +159,7 @@ function fetchLastWeekData(smartCitizenId, disponibilityTime, bookReservationTim
             newDisponibilityTime = {};
             newDisponibilityTime.time = disponibilityTime;
             newDisponibilityTime.avg = null;
-            return resolve(disponibilityTime);
+            return resolve(newDisponibilityTime);
         });
     });
 }
@@ -189,7 +189,7 @@ function fetchLastWeekDataFromSensor(smartCitizenId, disponibilityTime, bookRese
             const avgReadings = sumReadings / total;
            return resolve({"sensorId": sensorId, "avg": avgReadings});
        }).catch(() => {
-           return resolve({"sensorId": sensorId, "avg": null});
+           return reject({"sensorId": sensorId, "avg": null});
        });
     });
 }
