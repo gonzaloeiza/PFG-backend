@@ -1,4 +1,4 @@
-const { validationService } = require("../services");
+const { validationService, databaseService } = require("../services");
 const jwt = require("jsonwebtoken");
 
 function validateSignup(req, res, next) {
@@ -205,6 +205,16 @@ function validateRestorePasswordToken(req, res, next) {
 }
 
 
+function notPlayingAnyRanking(req, res, next) {
+    const userId = req.userId;
+    databaseService.notInAnyRanking(userId).then(() => {
+        next();
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+
+}
+
 module.exports = {
     validateSignup,
     validateLogin,
@@ -220,4 +230,5 @@ module.exports = {
     validateAddResult,
     validateRestorePassword,
     validateRestorePasswordToken,
+    notPlayingAnyRanking,
 }

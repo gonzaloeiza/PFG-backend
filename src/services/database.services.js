@@ -701,6 +701,29 @@ function getUserNameByEmail(userEmail) {
     });
 }
 
+function notInAnyRanking(userId) {
+        return new Promise((resolve, reject) => {
+        models.Partner.findAll({
+            where: {
+                [Op.or] : [
+                    {playerOneId: userId},
+                    {playerTwoId: userId}
+                ]
+            },
+            attributes: ["id"],
+            raw: true
+        }).then((data) => {
+            if (data.length <= 0) {
+                return resolve("No estas inscrito en ningún ranking");
+            } else {
+                return reject("Estas inscrito en algún ranking");
+            }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
 module.exports = {
     emailExists,
     signIn,
@@ -731,4 +754,5 @@ module.exports = {
     findUserByEmail,
     changeUserPassword,
     getUserNameByEmail,
+    notInAnyRanking,
 }
