@@ -87,12 +87,16 @@ function validateBirthDate(dateBirth) {
 
 function validatePhoneNumber(phoneNumber) {
     return new Promise((resolve, reject) => {
-        const number = phoneUtil.parse("+" + phoneNumber);
-        if (phoneUtil.isValidNumber(number)) {
-            return resolve();
-        } else {
+        try {
+            const number = phoneUtil.parse("+" + phoneNumber);
+            if (phoneUtil.isValidNumber(number)) {    
+                return resolve();
+            } else {
+                return reject("Número de teléfono inválido")
+            }
+        } catch {
             return reject("Número de teléfono inválido")
-        }
+        }        
     });
 }
 
