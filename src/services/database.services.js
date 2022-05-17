@@ -702,7 +702,7 @@ function getUserNameByEmail(userEmail) {
 }
 
 function notInAnyRanking(userId) {
-        return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         models.Partner.findAll({
             where: {
                 [Op.or] : [
@@ -718,6 +718,20 @@ function notInAnyRanking(userId) {
             } else {
                 return reject("Estas inscrito en algún ranking");
             }
+        }).catch(() => {
+            return reject(databaseError);
+        });
+    });
+}
+
+
+function getRegistrationOpenRankings() {
+    return new Promise((resolve, reject) => {
+        models.Ranking.findAll({
+            where: {registrationOpen: true},
+            raw: true
+        }).then((data) => {
+            return resolve(data);
         }).catch(() => {
             return reject(databaseError);
         });
@@ -755,4 +769,5 @@ module.exports = {
     changeUserPassword,
     getUserNameByEmail,
     notInAnyRanking,
+    getRegistrationOpenRankings,
 }

@@ -32,8 +32,17 @@ function addResult(req, res, next) {
     });
 }
 
+function getOpenRankings(req, res, next) {
+    rankingsService.getOpenRankings().then((data) => {
+        return res.status(200).send({message: data});
+    }).catch((err) => {
+        return res.status(400).send({message: err});
+    });
+}
+
 module.exports = {
     getMyRankings,
     getSpecificRanking,
     addResult,
+    getOpenRankings,
 }

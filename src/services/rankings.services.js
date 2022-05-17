@@ -34,8 +34,19 @@ function addResult(matchId, partnerOneWins) {
     });
 }
 
+function getOpenRankings() {
+    return new Promise((resolve, reject) => {
+        databaseService.getRegistrationOpenRankings().then((data) => {
+            return resolve(data);
+        }).catch((err) => {
+            return reject(err);
+        });
+    });
+}
+
 module.exports = {
     getMyRankings,
     getSpecificRanking,
     addResult,
+    getOpenRankings,
 }
