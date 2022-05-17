@@ -172,7 +172,7 @@ function fetchLastWeekDataFromSensor(smartCitizenId, disponibilityTime, bookRese
         var promises = [];
         for (var i = 0; i < process.env.SMARTCITIZEN_NUMBER_OF_DAYS; i++) {
             const url = `https://api.smartcitizen.me/v0/devices/${smartCitizenId}/readings?sensor_id=${sensorId}&rollup=1d&from=${fromDate}&to=${toDate}`
-            promises.push(axios.get(url));
+            promises.push(axios.get(url, {timeout: 2000}));
             fromDate.subtract(1, "days");
             toDate.subtract(1, "days");
         }
