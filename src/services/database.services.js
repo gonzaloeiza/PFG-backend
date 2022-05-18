@@ -499,11 +499,7 @@ function getRankingsOfUser(userId) {
             attributes: {exclude: ["playerOneId", "playerTwoId", "createdAt", "updatedAt"]},
             raw: true
         }).then((data) => {
-            if (data.length > 0) {
-                return resolve(data);
-            } else {
-                return reject("No estas inscrito en ningún ranking");
-            }
+            return resolve(data);
         }).catch(() => {
             return reject(databaseError);
         });
