@@ -67,20 +67,20 @@ function validateBirthDate(dateBirth) {
             const day = new Date(dateBirth);
             const dayNumber = day.getTime();
             if (!dayNumber && dayNumber !== 0) {
-                return reject("Fecha inválida");
+                return reject("Fecha no válida");
             } else {
                 if (day.toISOString().slice(0, 10) === dateBirth) {
                     if (day < new Date()) {
                         return resolve();
                     } else {
-                        return reject("Fecha inválida");
+                        return reject("Fecha no válida");
                     }
                 } else {
-                    return reject("Fecha inválida");
+                    return reject("Fecha no válida");
                 }
             }
         } else {
-            return reject("Fecha inválida");
+            return reject("Fecha no válida");
         }
     });
 }
@@ -92,10 +92,10 @@ function validatePhoneNumber(phoneNumber) {
             if (phoneUtil.isValidNumber(number)) {    
                 return resolve();
             } else {
-                return reject("Número de teléfono inválido")
+                return reject("Número de teléfono no válido")
             }
         } catch {
-            return reject("Número de teléfono inválido")
+            return reject("Número de teléfono no válido")
         }        
     });
 }
@@ -211,7 +211,7 @@ function validateDisponibilityDate(date, courtName) {
             var day = new Date(date);
             const dayNumber = day.getTime();
             if (!dayNumber && dayNumber !== 0) {
-                return reject("Fecha inválida");
+                return reject("Fecha no válida");
             } else {
                 if (day.toISOString().slice(0, 10) === date) {
                     var today = moment();
@@ -239,11 +239,11 @@ function validateDisponibilityDate(date, courtName) {
                         });
                    }
                 } else {
-                    return reject("Fecha inválida");
+                    return reject("Fecha no válida");
                 }
             }
         } else {
-            return reject("Fecha inválida");
+            return reject("Fecha no válida");
         }
     });
 }
